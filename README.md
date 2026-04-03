@@ -10,6 +10,7 @@
 
 - [Overview](#overview)
 - [Live Demo](#live-demo)
+- [📋 Full PRD & Market Research](docs/PRD.md)
 - [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
@@ -375,6 +376,21 @@ def parse_document(file: UploadedFile) -> VerifiedIdentity:
     
     return VerifiedIdentity(**extracted, confidence=bureau_match.confidence)
 ```
+
+---
+
+## Product Research & PRD
+
+Full product requirements document with market research, feature prioritization rationale, competitive positioning, and success metrics:
+
+**[→ Read the full PRD](docs/PRD.md)**
+
+Includes:
+- Market sizing data for all 5 features (sourced 2025–2026)
+- Why the Rate Optimizer was built first (and the research behind that decision)
+- Competitive positioning matrix vs. incumbent credit tools
+- Feature priority matrix with build order rationale
+- Success metrics and risk mitigation for each feature
 
 ---
 

@@ -44,6 +44,7 @@ Open **http://localhost:3000** in your browser.
 | [Architecture](docs/ARCHITECTURE.md) | System diagrams, data flow, agent graph, the Delta formula |
 | [Getting Started](docs/GETTING-STARTED.md) | Full setup guide, dev server, screenshot utility, project structure |
 | [PRD & Market Research](docs/PRD.md) | Product requirements, market data, competitive analysis, success metrics |
+| [Architectural Decisions](docs/DECISIONS.md) | Why LangGraph, why deterministic Underwriter, why Gemini Flash — the reasoning behind every key choice |
 
 ---
 

@@ -3,288 +3,162 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeltaPoint — See Your Free Credit Score</title>
+  <title>DeltaPoint — The Agentic Credit-to-Yield Engine</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            lc: {
-              navy:   '#020B18',
-              dark:   '#05111F',
-              card:   '#091826',
-              border: 'rgba(30,102,220,0.18)',
-              blue:   '#1E66DC',
-              bright: '#3D84FF',
-              light:  '#6BA4FF',
-              glow:   'rgba(30,102,220,0.4)',
+            dp: {
+              navy: '#020B18', dark: '#05111F', card: '#091826',
+              blue: '#1E66DC', bright: '#3D84FF', light: '#6BA4FF',
             },
-            good:  '#00C48C',
-            warn:  '#F7A23B',
-            bad:   '#F25454',
+            good: '#00C48C', warn: '#F7A23B', bad: '#F25454',
             muted: '#7A8EA8',
           },
           fontFamily: {
-            head: ['Sora', 'sans-serif'],
-            body: ['Inter', 'sans-serif'],
+            head: ['Sora','sans-serif'],
+            body: ['Inter','sans-serif'],
+            mono: ['JetBrains Mono','monospace'],
           },
         },
       },
     };
   </script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Inter',sans-serif;background:#020B18;color:#E4EEF9;overflow-x:hidden;}
+    body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.018;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;}
+    .orb{position:absolute;border-radius:50%;filter:blur(110px);pointer-events:none;}
+    h1,h2,h3,h4{font-family:'Sora',sans-serif;letter-spacing:-0.03em;}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #020B18;
-      color: #E4EEF9;
-      overflow-x: hidden;
-    }
+    /* Gradients */
+    .text-grad{background:linear-gradient(130deg,#FFF 0%,#9DC3FF 45%,#1E66DC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .text-grad-blue{background:linear-gradient(130deg,#6BA4FF,#1E66DC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .text-grad-green{background:linear-gradient(130deg,#00E6A6,#00C48C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .text-grad-gold{background:linear-gradient(130deg,#FFD97D,#F7A23B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-    /* Noise grain */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.018;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px;
-    }
+    /* Typography */
+    .hero-title{font-size:clamp(2.6rem,5.5vw,4.8rem);line-height:1.04;letter-spacing:-0.045em;font-weight:800;}
+    .section-title{font-size:clamp(1.9rem,3.5vw,3rem);line-height:1.08;font-weight:700;letter-spacing:-0.04em;}
 
-    /* Glow orb helper */
-    .orb { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; }
+    /* Nav */
+    .nav-blur{backdrop-filter:blur(18px) saturate(160%);background:rgba(2,11,24,0.75);border-bottom:1px solid rgba(30,102,220,0.1);}
 
-    /* ── NAV ── */
-    .nav-blur {
-      backdrop-filter: blur(18px) saturate(160%);
-      background: rgba(2, 11, 24, 0.75);
-      border-bottom: 1px solid rgba(30,102,220,0.1);
-    }
+    /* Glass */
+    .glass{background:linear-gradient(145deg,rgba(14,34,62,0.55),rgba(5,17,31,0.7));border:1px solid rgba(30,102,220,0.14);backdrop-filter:blur(14px);}
+    .glass-hover{transition:border-color .22s ease,background .22s ease,transform .22s cubic-bezier(.22,1,.36,1);}
+    .glass-hover:hover{border-color:rgba(30,102,220,0.3);background:linear-gradient(145deg,rgba(20,46,84,0.6),rgba(8,22,44,0.75));transform:translateY(-3px);}
 
-    /* ── TYPOGRAPHY ── */
-    h1,h2,h3,h4 { font-family: 'Sora', sans-serif; letter-spacing: -0.03em; }
+    /* Shadows */
+    .shadow-dp{box-shadow:0 0 0 1px rgba(30,102,220,0.18),0 4px 16px rgba(30,102,220,0.14),0 20px 60px rgba(30,102,220,0.08),0 40px 100px rgba(0,0,0,0.6);}
+    .shadow-card{box-shadow:0 2px 8px rgba(0,0,0,0.35),0 8px 30px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.035);}
+    .shadow-phone{box-shadow:0 0 0 1px rgba(255,255,255,0.06),0 8px 30px rgba(0,0,0,0.55),0 40px 100px rgba(0,0,0,0.75),inset 0 1px 0 rgba(255,255,255,0.07);}
 
-    .hero-title {
-      font-size: clamp(2.8rem, 6vw, 5.2rem);
-      line-height: 1.04;
-      letter-spacing: -0.045em;
-      font-weight: 800;
-    }
+    /* Phone */
+    .phone{background:linear-gradient(150deg,#112038 0%,#06111F 100%);border:1.5px solid rgba(255,255,255,0.09);border-radius:44px;position:relative;overflow:hidden;}
+    .phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:26px;background:#06111F;border-radius:0 0 18px 18px;z-index:10;}
 
-    .section-title {
-      font-size: clamp(2rem, 3.5vw, 3.2rem);
-      line-height: 1.08;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-    }
+    /* Buttons */
+    .btn-blue{background:linear-gradient(135deg,#1E66DC,#1451AF);box-shadow:0 0 0 1px rgba(30,102,220,0.45),0 4px 20px rgba(30,102,220,0.38),0 10px 40px rgba(30,102,220,0.18);transition:transform .18s cubic-bezier(.22,1,.36,1),box-shadow .18s ease,background .18s ease;}
+    .btn-blue:hover{background:linear-gradient(135deg,#2B76F0,#1A60C8);box-shadow:0 0 0 1px rgba(30,102,220,0.55),0 6px 24px rgba(30,102,220,0.48),0 14px 50px rgba(30,102,220,0.25);transform:translateY(-2px);}
+    .btn-ghost{background:rgba(30,102,220,0.08);border:1px solid rgba(30,102,220,0.28);transition:background .18s ease,border-color .18s ease,transform .18s cubic-bezier(.22,1,.36,1);}
+    .btn-ghost:hover{background:rgba(30,102,220,0.16);border-color:rgba(30,102,220,0.5);transform:translateY(-2px);}
 
-    /* ── GRADIENTS ── */
-    .text-grad {
-      background: linear-gradient(130deg, #FFFFFF 0%, #9DC3FF 45%, #1E66DC 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    /* Animations */
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+    @keyframes fadein{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulseglow{0%,100%{box-shadow:0 0 20px rgba(30,102,220,0.25),0 0 50px rgba(30,102,220,0.08)}50%{box-shadow:0 0 40px rgba(30,102,220,0.45),0 0 90px rgba(30,102,220,0.18)}}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    @keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    @keyframes slide-in-right{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes count-up{from{opacity:0}to{opacity:1}}
+    @keyframes progress-fill{from{width:0}to{width:var(--target-width)}}
+    @keyframes scan-line{0%{top:-10%}100%{top:110%}}
 
-    .text-grad-blue {
-      background: linear-gradient(130deg, #6BA4FF, #1E66DC);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .anim-float{animation:float 4.5s ease-in-out infinite;}
+    .anim-float2{animation:float2 3.8s ease-in-out infinite 0.9s;}
+    .anim-fadein{animation:fadein 0.75s cubic-bezier(.22,1,.36,1) both;}
+    .anim-glow{animation:pulseglow 3.5s ease-in-out infinite;}
+    .anim-blink{animation:blink 1.2s ease-in-out infinite;}
 
-    .text-grad-green {
-      background: linear-gradient(130deg, #00E6A6, #00C48C);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    /* Divider */
+    .divider{border-top:1px solid rgba(255,255,255,0.04);}
 
-    /* ── GLASS CARDS ── */
-    .glass {
-      background: linear-gradient(145deg, rgba(14,34,62,0.55), rgba(5,17,31,0.7));
-      border: 1px solid rgba(30,102,220,0.14);
-      backdrop-filter: blur(14px);
-    }
-
-    .glass-hover {
-      transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s cubic-bezier(0.22,1,0.36,1);
-    }
-
-    .glass-hover:hover {
-      border-color: rgba(30,102,220,0.3);
-      background: linear-gradient(145deg, rgba(20,46,84,0.6), rgba(8,22,44,0.75));
-      transform: translateY(-3px);
-    }
-
-    /* ── SHADOWS ── */
-    .shadow-lc {
-      box-shadow:
-        0 0 0 1px rgba(30,102,220,0.18),
-        0 4px 16px rgba(30,102,220,0.14),
-        0 20px 60px rgba(30,102,220,0.08),
-        0 40px 100px rgba(0,0,0,0.6);
-    }
-
-    .shadow-card {
-      box-shadow:
-        0 2px 8px rgba(0,0,0,0.35),
-        0 8px 30px rgba(0,0,0,0.45),
-        0 0 0 1px rgba(255,255,255,0.035);
-    }
-
-    .shadow-phone {
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.06),
-        0 8px 30px rgba(0,0,0,0.55),
-        0 40px 100px rgba(0,0,0,0.75),
-        inset 0 1px 0 rgba(255,255,255,0.07);
-    }
-
-    /* ── PHONE FRAME ── */
-    .phone {
-      background: linear-gradient(150deg, #112038 0%, #06111F 100%);
-      border: 1.5px solid rgba(255,255,255,0.09);
-      border-radius: 44px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .phone-notch {
-      position: absolute;
-      top: 0; left: 50%; transform: translateX(-50%);
-      width: 90px; height: 26px;
-      background: #06111F;
-      border-radius: 0 0 18px 18px;
-      z-index: 10;
-    }
-
-    /* ── SCORE DIAL ── */
-    .dial {
-      background: conic-gradient(
-        #F25454 0deg 55deg,
-        #F7A23B 55deg 120deg,
-        #00C48C 120deg 240deg,
-        rgba(255,255,255,0.06) 240deg 360deg
-      );
-      border-radius: 50%;
-    }
-
-    /* ── BUTTONS ── */
-    .btn-blue {
-      background: linear-gradient(135deg, #1E66DC, #1451AF);
-      box-shadow: 0 0 0 1px rgba(30,102,220,0.45), 0 4px 20px rgba(30,102,220,0.38), 0 10px 40px rgba(30,102,220,0.18);
-      transition: transform 0.18s cubic-bezier(0.22,1,0.36,1), box-shadow 0.18s ease, background 0.18s ease;
-    }
-    .btn-blue:hover {
-      background: linear-gradient(135deg, #2B76F0, #1A60C8);
-      box-shadow: 0 0 0 1px rgba(30,102,220,0.55), 0 6px 24px rgba(30,102,220,0.48), 0 14px 50px rgba(30,102,220,0.25);
-      transform: translateY(-2px);
-    }
-    .btn-blue:active { transform: translateY(0); }
-
-    .btn-ghost {
-      background: rgba(30,102,220,0.08);
-      border: 1px solid rgba(30,102,220,0.28);
-      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s cubic-bezier(0.22,1,0.36,1);
-    }
-    .btn-ghost:hover {
-      background: rgba(30,102,220,0.16);
-      border-color: rgba(30,102,220,0.5);
-      transform: translateY(-2px);
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
-    @keyframes fadein { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes pulseglow {
-      0%,100%{box-shadow:0 0 20px rgba(30,102,220,0.25),0 0 50px rgba(30,102,220,0.08)}
-      50%{box-shadow:0 0 40px rgba(30,102,220,0.45),0 0 90px rgba(30,102,220,0.18)}
-    }
-    @keyframes shimmer { from{transform:translateX(-100%)} to{transform:translateX(250%)} }
-    @keyframes score-grow { from{stroke-dashoffset:282} to{stroke-dashoffset:72} }
-
-    .anim-float  { animation: float 4.5s ease-in-out infinite; }
-    .anim-float2 { animation: float2 3.8s ease-in-out infinite 0.9s; }
-    .anim-fadein { animation: fadein 0.75s cubic-bezier(0.22,1,0.36,1) both; }
-    .anim-glow   { animation: pulseglow 3.5s ease-in-out infinite; }
-    .anim-score  { animation: score-grow 1.8s cubic-bezier(0.22,1,0.36,1) 0.4s forwards; }
-
-    /* ── FAQ ── */
-    details summary { cursor:pointer; list-style:none; }
-    details summary::-webkit-details-marker { display:none; }
-    details[open] .chevron { transform:rotate(180deg); }
-    details[open] { border-color: rgba(30,102,220,0.3) !important; }
-    .chevron { transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
-
-    /* ── SECTION DIVIDER ── */
-    .divider { border-top: 1px solid rgba(255,255,255,0.04); }
-
-    /* ── STEP LINE ── */
-    .step-line { background: linear-gradient(180deg, rgba(30,102,220,0.45) 0%, transparent 100%); }
-
-    /* ── SCROLL FADE (JS) ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
-    }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-
-    /* ── GRID BG ── */
-    .grid-bg {
-      background-image:
-        linear-gradient(rgba(30,102,220,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(30,102,220,0.025) 1px, transparent 1px);
-      background-size: 72px 72px;
-    }
+    /* Grid bg */
+    .grid-bg{background-image:linear-gradient(rgba(30,102,220,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(30,102,220,0.025) 1px,transparent 1px);background-size:72px 72px;}
 
     /* Score badge */
-    .score-badge {
-      background: linear-gradient(135deg, rgba(0,196,140,0.15), rgba(0,196,140,0.05));
-      border: 1px solid rgba(0,196,140,0.3);
-    }
+    .score-badge{background:linear-gradient(135deg,rgba(0,196,140,0.15),rgba(0,196,140,0.05));border:1px solid rgba(0,196,140,0.3);}
+
+    /* FAQ */
+    details summary{cursor:pointer;list-style:none;}
+    details summary::-webkit-details-marker{display:none;}
+    details[open] .chevron{transform:rotate(180deg);}
+    details[open]{border-color:rgba(30,102,220,0.3) !important;}
+    .chevron{transition:transform .25s cubic-bezier(.22,1,.36,1);}
+
+    /* Scroll reveal */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1);}
+    .reveal.in{opacity:1;transform:translateY(0);}
+
+    /* ── DELTA SLIDER ── */
+    .delta-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;outline:none;cursor:pointer;background:transparent;}
+    .delta-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#3D84FF,#1E66DC);border:2px solid rgba(255,255,255,0.9);box-shadow:0 0 0 4px rgba(30,102,220,0.25),0 0 16px rgba(30,102,220,0.6);cursor:pointer;transition:box-shadow .15s ease;}
+    .delta-slider::-webkit-slider-thumb:hover{box-shadow:0 0 0 6px rgba(30,102,220,0.3),0 0 24px rgba(30,102,220,0.8);}
+    .delta-slider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#3D84FF,#1E66DC);border:2px solid rgba(255,255,255,0.9);cursor:pointer;}
+
+    /* Agent running animation */
+    @keyframes agent-pulse{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.02)}}
+    .agent-running{animation:agent-pulse 1.5s ease-in-out infinite;}
+
+    /* Typing cursor */
+    .typing-cursor::after{content:'|';animation:blink 1s step-end infinite;color:#3D84FF;}
+
+    /* Scan line for OCR */
+    .scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00C48C,transparent);animation:scan-line 2.5s ease-in-out infinite;}
+
+    /* Ticker */
+    .ticker-wrap{overflow:hidden;}
+    .ticker-inner{display:flex;gap:48px;white-space:nowrap;animation:ticker 30s linear infinite;}
+
+    /* Grade badge colors */
+    .grade-A\+{background:rgba(0,196,140,0.15);border-color:rgba(0,196,140,0.4);color:#00C48C;}
+    .grade-A{background:rgba(0,196,140,0.12);border-color:rgba(0,196,140,0.35);color:#00D49A;}
+    .grade-A-{background:rgba(0,196,140,0.1);border-color:rgba(0,196,140,0.3);color:#00C48C;}
+    .grade-B\+{background:rgba(61,132,255,0.15);border-color:rgba(61,132,255,0.4);color:#6BA4FF;}
+    .grade-B{background:rgba(61,132,255,0.12);border-color:rgba(61,132,255,0.35);color:#3D84FF;}
+    .grade-B-{background:rgba(61,132,255,0.1);border-color:rgba(61,132,255,0.3);color:#3D84FF;}
+    .grade-C\+{background:rgba(247,162,59,0.12);border-color:rgba(247,162,59,0.35);color:#F7A23B;}
+    .grade-C{background:rgba(247,162,59,0.1);border-color:rgba(247,162,59,0.3);color:#F7A23B;}
+    .grade-D{background:rgba(242,84,84,0.1);border-color:rgba(242,84,84,0.3);color:#F25454;}
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
-     NAV
-═══════════════════════════════════════════════════════ -->
+<!-- ═══ NAV ═══ -->
 <nav class="nav-blur fixed top-0 left-0 right-0 z-50 px-6 lg:px-10 py-4">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
-
-    <!-- Logo -->
     <a href="#" class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-lc-blue flex items-center justify-center" style="box-shadow:0 0 14px rgba(30,102,220,0.55);">
-        <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-          <path d="M11 2L20 6.5V11C20 15.9 16.3 20.3 11 21.5C5.7 20.3 2 15.9 2 11V6.5L11 2Z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.6"/>
-          <path d="M7.5 11l3 3L15 8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+      <div class="w-9 h-9 rounded-xl bg-dp-blue flex items-center justify-center" style="box-shadow:0 0 14px rgba(30,102,220,0.55);">
+        <svg width="20" height="20" viewBox="0 0 22 22" fill="none"><path d="M11 2L20 6.5V11C20 15.9 16.3 20.3 11 21.5C5.7 20.3 2 15.9 2 11V6.5L11 2Z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.6"/><path d="M7.5 11l3 3L15 8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <span class="font-head font-700 text-white text-[17px]" style="letter-spacing:-0.03em;">
-        Delta<span class="text-lc-bright">Point</span>
-      </span>
+      <span class="font-head font-bold text-white text-[17px]" style="letter-spacing:-0.03em;">Delta<span class="text-dp-bright">Point</span></span>
     </a>
-
-    <!-- Links -->
     <div class="hidden md:flex items-center gap-7 text-sm font-medium" style="color:#7A8EA8;">
-      <a href="#score"    class="hover:text-white transition-colors duration-150">Credit Score</a>
-      <a href="#features" class="hover:text-white transition-colors duration-150">Features</a>
-      <a href="#how"      class="hover:text-white transition-colors duration-150">How It Works</a>
-      <a href="#plans"    class="hover:text-white transition-colors duration-150">Plans</a>
+      <a href="#delta-slider" class="hover:text-white transition-colors duration-150">Delta Slider</a>
+      <a href="#underwriter" class="hover:text-white transition-colors duration-150">Underwriter</a>
+      <a href="#vault" class="hover:text-white transition-colors duration-150">Identity Vault</a>
+      <a href="#plans" class="hover:text-white transition-colors duration-150">Plans</a>
     </div>
-
-    <!-- CTA -->
     <div class="flex items-center gap-3">
       <a href="#" class="hidden md:block text-sm font-medium hover:text-white transition-colors" style="color:#7A8EA8;">Log in</a>
       <a href="#" class="btn-blue text-white text-sm font-semibold px-5 py-2.5 rounded-xl">Get Started Free</a>
@@ -292,122 +166,98 @@
   </div>
 </nav>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     HERO — Credit Karma style: Score big + App on right
-═══════════════════════════════════════════════════════ -->
+<!-- ═══ HERO ═══ -->
 <section class="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden grid-bg">
-  <!-- Orbs -->
-  <div class="orb w-[700px] h-[700px] bg-lc-blue/18 top-[-180px] left-[-220px]"></div>
+  <div class="orb w-[700px] h-[700px] bg-dp-blue/18 top-[-180px] left-[-220px]"></div>
   <div class="orb w-[500px] h-[500px] bg-[#0A2E7A]/22 top-[300px] right-[-150px]"></div>
   <div class="orb w-[300px] h-[300px] bg-good/8 bottom-0 left-[45%]"></div>
 
   <div class="max-w-7xl mx-auto px-6 lg:px-10 w-full">
     <div class="grid lg:grid-cols-[1fr_480px] gap-10 items-center">
-
-      <!-- LEFT: Copy (Credit Karma style — direct, benefit-led) -->
       <div class="anim-fadein max-w-[600px]">
-
-        <!-- Pill badge -->
-        <div class="inline-flex items-center gap-2 mb-7 px-4 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF; border-color:rgba(30,102,220,0.3); background:rgba(30,102,220,0.08);">
-          <span class="w-1.5 h-1.5 rounded-full bg-good" style="animation:pulse 2s infinite;"></span>
-          Free Credit Score & Rate Optimizer
+        <div class="inline-flex items-center gap-2 mb-7 px-4 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF;border-color:rgba(30,102,220,0.3);background:rgba(30,102,220,0.08);">
+          <span class="w-1.5 h-1.5 rounded-full bg-good anim-blink"></span>
+          The Agentic Credit-to-Yield Engine
         </div>
-
-        <!-- Headline -->
         <h1 class="hero-title text-white mb-6">
-          See your free<br/>
-          <span class="text-grad">credit score</span><br/>
-          <span style="color:#7A8EA8;font-weight:500;font-size:0.82em;">and optimize your rate.</span>
+          Bridge the gap between<br/><span class="text-grad">credit health</span><br/>and cost of capital.
         </h1>
-
-        <!-- Sub -->
-        <p class="text-[#7A8EA8] text-lg leading-[1.72] mb-9 max-w-[480px]">
-          DeltaPoint monitors your credit score, simulates rate scenarios, and automates debt payoff — so you always get the lowest possible APR.
+        <p class="text-[#7A8EA8] text-lg leading-[1.72] mb-9 max-w-[490px]">
+          DeltaPoint maps your real-time credit data against a universal Market Rate adapter, calculates your exact <strong class="text-dp-bright">Interest Delta</strong>, and provides an agentic roadmap to unlock lower APRs across any lender.
         </p>
 
-        <!-- Inline score meter (like Credit Karma's hero) -->
+        <!-- Inline metric -->
         <div class="flex items-center gap-5 mb-10 p-5 glass rounded-2xl shadow-card max-w-[420px]">
-          <!-- Meter -->
           <div class="relative w-20 h-20 shrink-0">
             <svg class="w-full h-full -rotate-90" viewBox="0 0 90 90">
               <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
-              <circle cx="45" cy="45" r="38" fill="none" stroke="#00C48C" stroke-width="8"
-                stroke-linecap="round" stroke-dasharray="238" stroke-dashoffset="72"
-                class="anim-score" style="stroke-dashoffset:72;"/>
+              <circle cx="45" cy="45" r="38" fill="none" stroke="#00C48C" stroke-width="8" stroke-linecap="round" stroke-dasharray="238" stroke-dashoffset="72"/>
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
               <span class="text-xl font-bold text-white font-head" style="letter-spacing:-0.04em;">714</span>
               <span class="text-[9px] text-muted">Good</span>
             </div>
           </div>
-          <!-- Text -->
           <div>
-            <div class="text-sm font-semibold text-white mb-0.5">Your score is <span class="text-good">Good</span></div>
-            <div class="text-xs text-muted leading-relaxed mb-2.5">Score hits 735 → your APR drops from <span class="text-warn line-through">12.5%</span> to <span class="text-good font-semibold">9.4%</span></div>
+            <div class="text-sm font-semibold text-white mb-0.5">Interest Delta identified</div>
+            <div class="text-xs text-muted leading-relaxed mb-2.5">Score 714 → 735 saves <span class="text-warn line-through">$3,100</span> → <span class="text-good font-semibold">$1,850 total interest</span></div>
             <div class="inline-flex items-center gap-1.5 score-badge px-2.5 py-1 rounded-full text-[10px] font-semibold text-good">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M2 4l3-3 3 3" stroke="#00C48C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Est. savings: $1,250/yr
+              Delta: $1,250 saved
             </div>
           </div>
         </div>
 
-        <!-- CTAs -->
         <div class="flex flex-wrap gap-4 mb-10">
-          <a href="#" class="btn-blue text-white font-semibold text-sm px-8 py-4 rounded-xl flex items-center gap-2">
-            See My Free Score
+          <a href="#delta-slider" class="btn-blue text-white font-semibold text-sm px-8 py-4 rounded-xl flex items-center gap-2">
+            Calculate My Delta
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a href="#how" class="btn-ghost text-[#E4EEF9] font-medium text-sm px-8 py-4 rounded-xl flex items-center gap-2">
+          <a href="#underwriter" class="btn-ghost text-[#E4EEF9] font-medium text-sm px-8 py-4 rounded-xl flex items-center gap-2">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5Z" fill="currentColor"/></svg>
-            Watch Demo
+            See the Agents
           </a>
         </div>
-
-        <!-- Trust row -->
         <div class="flex flex-wrap items-center gap-5 text-xs" style="color:#4A5E74;">
-          <span class="flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L11 3.5V6C11 8.75 8.75 11.1 6 11.75C3.25 11.1 1 8.75 1 6V3.5L6 1Z" stroke="#00C48C" stroke-width="1.3"/><path d="M4 6l1.5 1.5L8 4.5" stroke="#00C48C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            No hard credit pull
-          </span>
+          <span class="flex items-center gap-1.5"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L11 3.5V6C11 8.75 8.75 11.1 6 11.75C3.25 11.1 1 8.75 1 6V3.5L6 1Z" stroke="#00C48C" stroke-width="1.3"/><path d="M4 6l1.5 1.5L8 4.5" stroke="#00C48C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>No hard credit pull</span>
           <span style="color:#1E3048;">•</span>
-          <span class="flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="#1E66DC" stroke-width="1.3"/><path d="M4 6l1.5 1.5L8 4.5" stroke="#1E66DC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            SOC 2 Certified
-          </span>
+          <span>LangGraph orchestration</span>
           <span style="color:#1E3048;">•</span>
-          <span>256-bit encryption</span>
+          <span>Gemini 1.5 Pro powered</span>
           <span style="color:#1E3048;">•</span>
-          <span>Free forever</span>
+          <span>MCP protocol</span>
         </div>
       </div>
 
-      <!-- RIGHT: Phone stack -->
+      <!-- Phone mockups -->
       <div class="relative flex justify-center items-center h-[600px]">
-
         <!-- Back phone -->
         <div class="phone shadow-phone w-[210px] h-[440px] absolute" style="right:10px;bottom:20px;transform:rotate(5deg) translateX(30px);z-index:1;opacity:0.65;">
           <div class="phone-notch"></div>
           <div class="pt-9 px-4 pb-4 h-full flex flex-col">
-            <div class="text-center mb-4">
-              <p class="text-[9px]" style="color:#4A5E74;">Rate Optimizer</p>
-              <p class="text-xs font-semibold text-white mt-0.5">Simulate Your APR</p>
+            <div class="text-center mb-3">
+              <p class="text-[9px]" style="color:#4A5E74;">Underwriter Agent</p>
+              <p class="text-xs font-semibold text-white mt-0.5">Risk Grade: <span class="text-dp-bright">B+</span></p>
             </div>
-            <!-- Rate slider -->
+            <div class="rounded-xl p-2.5 mb-2 text-[8px]" style="background:rgba(30,102,220,0.12);border:1px solid rgba(30,102,220,0.25);">
+              <div class="flex justify-between mb-1"><span style="color:#4A5E74;">DTI Ratio</span><span class="text-white font-medium">28.4%</span></div>
+              <div class="flex justify-between mb-1"><span style="color:#4A5E74;">Util. Rate</span><span class="text-warn font-medium">71%</span></div>
+              <div class="flex justify-between"><span style="color:#4A5E74;">Score Band</span><span class="text-dp-bright font-medium">720-739</span></div>
+            </div>
             <div class="relative h-1.5 rounded-full mb-4 mt-1" style="background:rgba(255,255,255,0.08);">
-              <div class="absolute left-0 top-0 h-full rounded-full" style="width:62%;background:linear-gradient(90deg,#F25454,#F7A23B,#00C48C);"></div>
-              <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-lc-blue border-2 border-white" style="left:60%;box-shadow:0 0 8px rgba(30,102,220,0.8);"></div>
+              <div class="absolute left-0 top-0 h-full rounded-full" style="width:68%;background:linear-gradient(90deg,#F25454,#F7A23B,#00C48C);"></div>
+              <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-dp-blue border-2 border-white" style="left:66%;box-shadow:0 0 8px rgba(30,102,220,0.8);"></div>
             </div>
-            <div class="flex justify-between text-[8px] mb-4" style="color:#4A5E74;">
-              <div class="text-center"><div class="text-white font-bold text-[10px]">714</div><div>12.5% APR</div></div>
-              <div class="text-center"><div class="font-bold text-[10px]" style="color:#3D84FF;">735</div><div>9.4% APR</div></div>
-              <div class="text-center"><div class="text-good font-bold text-[10px]">760</div><div>7.1% APR</div></div>
+            <div class="flex justify-between text-[8px] mb-3" style="color:#4A5E74;">
+              <div class="text-center"><div class="text-white font-bold text-[10px]">D</div><div>24.9%</div></div>
+              <div class="text-center"><div class="text-warn font-bold text-[10px]">C</div><div>18.9%</div></div>
+              <div class="text-center"><div class="text-dp-bright font-bold text-[10px]">B+</div><div>9.9%</div></div>
+              <div class="text-center"><div class="text-good font-bold text-[10px]">A</div><div>6.5%</div></div>
             </div>
-            <div class="rounded-xl p-2.5 mb-3 text-[8px] text-white" style="background:rgba(30,102,220,0.12);border:1px solid rgba(30,102,220,0.25);">
-              Pay <span class="text-warn font-semibold">$1,600</span> Chase →<br/>
-              +21 pts · Save <span class="text-good">$1,250</span>
+            <div class="rounded-xl p-2 text-[8px]" style="background:rgba(0,196,140,0.08);border:1px solid rgba(0,196,140,0.2);">
+              <span class="text-good">↑ Reduce util to 30% → Grade A-</span>
             </div>
-            <button class="w-full text-white text-[9px] font-semibold py-2 rounded-xl mt-auto btn-blue">View Actions</button>
+            <button class="w-full text-white text-[9px] font-semibold py-2 rounded-xl mt-auto btn-blue">Run Agent</button>
           </div>
         </div>
 
@@ -415,630 +265,703 @@
         <div class="phone shadow-phone anim-float w-[250px] h-[520px] anim-glow relative z-10">
           <div class="phone-notch"></div>
           <div class="pt-9 px-5 pb-5 h-full flex flex-col gap-3">
-
-            <!-- Greeting -->
             <div class="flex justify-between items-center">
-              <div>
-                <p class="text-[9px]" style="color:#4A5E74;">Welcome back</p>
-                <p class="text-sm font-bold text-white font-head" style="letter-spacing:-0.02em;">Sarah K.</p>
-              </div>
+              <div><p class="text-[9px]" style="color:#4A5E74;">Welcome back</p><p class="text-sm font-bold text-white font-head" style="letter-spacing:-0.02em;">Sarah K.</p></div>
               <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(30,102,220,0.2);border:1px solid rgba(30,102,220,0.4);color:#3D84FF;">SK</div>
             </div>
-
-            <!-- Score dial -->
             <div class="flex flex-col items-center py-1">
               <div class="relative w-[110px] h-[110px]">
-                <div class="dial w-full h-full rounded-full p-2">
+                <div style="background:conic-gradient(#F25454 0deg 55deg,#F7A23B 55deg 120deg,#00C48C 120deg 240deg,rgba(255,255,255,0.06) 240deg 360deg);" class="w-full h-full rounded-full p-2">
                   <div class="w-full h-full rounded-full flex flex-col items-center justify-center" style="background:#091826;">
                     <span class="text-[28px] font-bold text-white font-head" style="letter-spacing:-0.04em;">714</span>
                     <span class="text-[8px]" style="color:#4A5E74;">Credit Score</span>
                   </div>
                 </div>
               </div>
-              <div class="flex gap-3 text-[8px] mt-1">
-                <span class="text-bad">Poor</span>
-                <span style="color:#4A5E74;">Fair</span>
-                <span class="text-warn">Good</span>
-                <span class="text-good font-semibold">Very Good</span>
-                <span style="color:#4A5E74;">Excellent</span>
-              </div>
             </div>
-
-            <!-- Spark chart -->
             <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);" class="rounded-xl p-3">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-[9px]" style="color:#4A5E74;">Score History</span>
-                <span class="text-[9px] text-good font-semibold">↑ +7 this month</span>
-              </div>
-              <div class="flex items-end gap-0.5 h-9">
-                <div class="flex-1 rounded-sm" style="height:40%;background:rgba(30,102,220,0.3);"></div>
-                <div class="flex-1 rounded-sm" style="height:52%;background:rgba(30,102,220,0.35);"></div>
-                <div class="flex-1 rounded-sm" style="height:48%;background:rgba(30,102,220,0.38);"></div>
-                <div class="flex-1 rounded-sm" style="height:63%;background:rgba(30,102,220,0.44);"></div>
-                <div class="flex-1 rounded-sm" style="height:58%;background:rgba(30,102,220,0.48);"></div>
-                <div class="flex-1 rounded-sm" style="height:72%;background:rgba(30,102,220,0.55);"></div>
-                <div class="flex-1 rounded-sm" style="height:80%;background:rgba(30,102,220,0.62);"></div>
-                <div class="flex-1 rounded-sm" style="height:88%;background:#1E66DC;box-shadow:0 0 6px rgba(30,102,220,0.6);"></div>
-              </div>
+              <div class="flex justify-between items-center mb-1"><span class="text-[9px]" style="color:#4A5E74;">Interest Delta</span><span class="text-[9px] text-good font-semibold">-$1,250</span></div>
+              <div class="text-[10px] text-white font-mono">APR: 12.5% → <span class="text-good">9.9%</span></div>
+              <div class="text-[8px] mt-0.5" style="color:#4A5E74;">Score target: 735 (+21 pts)</div>
             </div>
-
-            <!-- Delta insight -->
             <div style="background:rgba(0,196,140,0.07);border:1px solid rgba(0,196,140,0.22);" class="rounded-xl p-3">
-              <p class="text-[9px] font-semibold text-good mb-1">Your DeltaPoint Insight</p>
-              <p class="text-[8px] text-white">Score hits <span class="text-good font-semibold">721</span> → APR drops to <span class="text-good font-semibold">9.4%</span></p>
-              <p class="text-[8px] text-good mt-0.5 font-medium">Est. savings: $1,250/yr</p>
+              <p class="text-[9px] font-semibold text-good mb-1">Coach Agent Alert</p>
+              <p class="text-[8px] text-white">Chase util spike: 71% → Pay <span class="text-warn font-semibold">$1,600</span> now</p>
+              <p class="text-[8px] text-good mt-0.5">Expected: +21 pts in 30 days</p>
             </div>
-
-            <!-- Active loan -->
             <div style="background:rgba(30,102,220,0.1);border:1px solid rgba(30,102,220,0.22);" class="rounded-xl p-3">
               <div class="flex justify-between items-center">
-                <div>
-                  <p class="text-[8px]" style="color:#4A5E74;">Active Loan</p>
-                  <p class="text-[10px] font-semibold text-white">$22k Personal Loan</p>
-                  <p class="text-[8px] text-warn">@ 12.5% APR</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-[9px] text-good font-bold">High</p>
-                  <p class="text-[7px]" style="color:#4A5E74;">Approval odds</p>
-                </div>
+                <div><p class="text-[8px]" style="color:#4A5E74;">Market Rate Adapter</p><p class="text-[10px] font-semibold text-white">Prime + 6.5% spread</p><p class="text-[8px] text-dp-bright">Fed rate: 5.25%</p></div>
+                <div class="text-right"><p class="text-[9px] text-good font-bold">Live</p><p class="text-[7px]" style="color:#4A5E74;">GraphRAG sync</p></div>
               </div>
             </div>
-
           </div>
         </div>
 
-        <!-- Floating notification 1 -->
+        <!-- Floating badges -->
         <div class="glass absolute top-14 left-0 rounded-2xl px-4 py-3 shadow-card border border-white/8 anim-float2 z-20">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(0,196,140,0.15);">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M4 6l4-4 4 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div>
-              <p class="text-[11px] font-semibold text-white">Rate alert!</p>
-              <p class="text-[10px] text-good">12.5% → 9.4% APR</p>
-            </div>
+            <div><p class="text-[11px] font-semibold text-white">Delta: $1,250</p><p class="text-[10px] text-good">12.5% → 9.9% APR</p></div>
           </div>
         </div>
-
-        <!-- Floating notification 2 -->
         <div class="glass absolute bottom-20 left-[-15px] rounded-2xl px-4 py-3 shadow-card border border-white/8 z-20">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(30,102,220,0.15);">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M10 4l4 4-4 4" stroke="#3D84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="text-xs font-bold font-mono" style="color:#3D84FF;">B+</span>
             </div>
-            <div>
-              <p class="text-[11px] font-semibold text-white">Chase paid ✓</p>
-              <p class="text-[10px]" style="color:#4A5E74;">Direct Pay complete</p>
-            </div>
+            <div><p class="text-[11px] font-semibold text-white">Grade upgraded</p><p class="text-[10px]" style="color:#4A5E74;">Underwriter Agent ✓</p></div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     PARTNER STRIP (Credit Karma style: "Works with" logos)
-═══════════════════════════════════════════════════════ -->
-<div class="divider py-10">
-  <div class="max-w-7xl mx-auto px-6">
-    <p class="text-center text-[11px] font-semibold uppercase tracking-[0.14em] mb-7" style="color:#2A3D52;">Trusted by members using</p>
-    <div class="flex flex-wrap justify-center gap-10 items-center" style="opacity:0.28;">
-      <svg height="20" viewBox="0 0 65 20" fill="none"><text y="15" fill="white" font-size="14" font-family="Sora,sans-serif" font-weight="600">Chase</text></svg>
-      <svg height="20" viewBox="0 0 120 20" fill="none"><text y="15" fill="white" font-size="13" font-family="Sora,sans-serif" font-weight="600">Bank of America</text></svg>
-      <svg height="20" viewBox="0 0 65 20" fill="none"><text y="15" fill="white" font-size="14" font-family="Sora,sans-serif" font-weight="600">Citibank</text></svg>
-      <svg height="20" viewBox="0 0 100 20" fill="none"><text y="15" fill="white" font-size="13" font-family="Sora,sans-serif" font-weight="600">Wells Fargo</text></svg>
-      <svg height="20" viewBox="0 0 110 20" fill="none"><text y="15" fill="white" font-size="13" font-family="Sora,sans-serif" font-weight="600">Experian</text></svg>
-      <svg height="20" viewBox="0 0 80 20" fill="none"><text y="15" fill="white" font-size="13" font-family="Sora,sans-serif" font-weight="600">Discover</text></svg>
+<!-- ═══ LIVE MARKET TICKER ═══ -->
+<div class="divider py-3 overflow-hidden" style="background:rgba(5,17,31,0.8);">
+  <div class="ticker-wrap">
+    <div class="ticker-inner text-xs font-mono" style="color:#4A5E74;">
+      <!-- Duplicated for seamless loop -->
+      <span>Fed Funds Rate: <span class="text-dp-bright">5.25%</span></span>
+      <span>Prime Rate: <span class="text-dp-bright">8.50%</span></span>
+      <span>10Y Treasury: <span class="text-good">4.61%</span></span>
+      <span>30Y Fixed Avg: <span class="text-warn">7.09%</span></span>
+      <span>Personal Loan Avg: <span class="text-warn">12.49%</span></span>
+      <span>Auto Loan 60mo: <span class="text-dp-bright">7.78%</span></span>
+      <span>SOFR: <span class="text-good">5.31%</span></span>
+      <span>CPI YoY: <span class="text-warn">3.2%</span></span>
+      <!-- duplicate -->
+      <span>Fed Funds Rate: <span class="text-dp-bright">5.25%</span></span>
+      <span>Prime Rate: <span class="text-dp-bright">8.50%</span></span>
+      <span>10Y Treasury: <span class="text-good">4.61%</span></span>
+      <span>30Y Fixed Avg: <span class="text-warn">7.09%</span></span>
+      <span>Personal Loan Avg: <span class="text-warn">12.49%</span></span>
+      <span>Auto Loan 60mo: <span class="text-dp-bright">7.78%</span></span>
+      <span>SOFR: <span class="text-good">5.31%</span></span>
+      <span>CPI YoY: <span class="text-warn">3.2%</span></span>
     </div>
   </div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     CREDIT SCORE SECTION (Credit Karma core section)
-═══════════════════════════════════════════════════════ -->
-<section id="score" class="py-28 relative overflow-hidden">
-  <div class="orb w-[500px] h-[500px] bg-lc-blue/10 top-1/2 left-[-100px] -translate-y-1/2"></div>
+<!-- ═══ DELTA SLIDER ═══ -->
+<section id="delta-slider" class="py-28 relative overflow-hidden">
+  <div class="orb w-[600px] h-[600px] bg-dp-blue/12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
 
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
+    <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+      <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF;border-color:rgba(30,102,220,0.3);background:rgba(30,102,220,0.08);">
+        The Delta Slider · Live Amortization Engine
+      </div>
+      <h2 class="section-title text-white mb-4">Visualize your <span class="text-grad-blue">Interest Delta</span></h2>
+      <p style="color:#7A8EA8;" class="leading-relaxed">Move the slider to see exactly how each credit score improvement translates to monthly payment reduction using the standard amortization formula.</p>
+    </div>
 
-      <!-- Score card preview (big) -->
+    <div class="glass rounded-3xl p-8 lg:p-12 shadow-dp reveal">
+      <!-- Formula display -->
+      <div class="flex items-center justify-center gap-3 mb-10 flex-wrap">
+        <div class="glass rounded-xl px-5 py-3 font-mono text-sm" style="color:#6BA4FF;border-color:rgba(30,102,220,0.25);">
+          M = P · r(1+r)ⁿ / ((1+r)ⁿ − 1)
+        </div>
+        <div class="text-xs" style="color:#4A5E74;">where r = APR÷12, n = term months</div>
+      </div>
+
+      <!-- Loan controls -->
+      <div class="grid sm:grid-cols-2 gap-4 mb-10">
+        <div class="glass rounded-xl p-4">
+          <label class="text-xs font-semibold uppercase tracking-wider mb-2 block" style="color:#4A5E74;">Loan Principal (P)</label>
+          <div class="flex items-center gap-3">
+            <span class="text-dp-bright font-mono font-medium">$</span>
+            <input id="principal" type="number" value="25000" min="5000" max="100000" step="1000"
+              class="bg-transparent text-white font-mono text-xl font-semibold flex-1 outline-none border-b border-dp-blue/40 pb-1"
+              style="letter-spacing:-0.03em;" oninput="updateDelta()"/>
+          </div>
+        </div>
+        <div class="glass rounded-xl p-4">
+          <label class="text-xs font-semibold uppercase tracking-wider mb-2 block" style="color:#4A5E74;">Loan Term (n)</label>
+          <div class="flex gap-2">
+            <button onclick="setTerm(24)" id="term-24" class="flex-1 py-2 rounded-lg text-xs font-semibold btn-ghost transition-all" style="color:#7A8EA8;">24 mo</button>
+            <button onclick="setTerm(36)" id="term-36" class="flex-1 py-2 rounded-lg text-xs font-semibold btn-ghost transition-all" style="color:#7A8EA8;">36 mo</button>
+            <button onclick="setTerm(48)" id="term-48" class="flex-1 py-2 rounded-lg text-xs font-semibold btn-ghost transition-all" style="color:#7A8EA8;">48 mo</button>
+            <button onclick="setTerm(60)" id="term-60" class="flex-1 py-2 rounded-lg text-xs font-semibold transition-all" style="background:rgba(30,102,220,0.2);border:1px solid rgba(30,102,220,0.4);color:#6BA4FF;">60 mo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main slider area -->
+      <div class="mb-10">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider" style="color:#4A5E74;">Credit Score</span>
+            <div class="flex items-center gap-3 mt-1">
+              <span id="slider-score" class="text-4xl font-bold text-white font-head" style="letter-spacing:-0.05em;">714</span>
+              <span id="slider-grade" class="text-sm font-semibold px-2.5 py-1 rounded-lg border grade-B" style="">B</span>
+              <span id="slider-label" class="text-sm" style="color:#7A8EA8;">Good</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-semibold uppercase tracking-wider" style="color:#4A5E74;">APR (r × 12)</span>
+            <div class="text-4xl font-bold font-mono mt-1" id="slider-apr" style="letter-spacing:-0.03em;color:#F7A23B;">12.49%</div>
+          </div>
+        </div>
+
+        <!-- Gradient track -->
+        <div class="relative mb-2">
+          <div class="h-3 rounded-full" style="background:linear-gradient(90deg,#F25454 0%,#F7A23B 35%,#3D84FF 60%,#00C48C 100%);"></div>
+          <input type="range" id="score-slider" class="delta-slider absolute inset-0 opacity-0 cursor-pointer" min="500" max="800" value="714" oninput="updateDelta()"/>
+          <!-- Thumb overlay -->
+          <div id="thumb-overlay" class="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full pointer-events-none" style="background:linear-gradient(135deg,#3D84FF,#1E66DC);border:2px solid white;box-shadow:0 0 0 4px rgba(30,102,220,0.3),0 0 16px rgba(30,102,220,0.6);left:calc(71.3% - 12px);transition:left .05s;"></div>
+        </div>
+        <div class="flex justify-between text-[10px] font-mono" style="color:#4A5E74;">
+          <span>500 · Poor</span><span>580 · Fair</span><span>670 · Good</span><span>740 · Very Good</span><span>800 · Exceptional</span>
+        </div>
+      </div>
+
+      <!-- Output cards -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="glass rounded-2xl p-5 text-center shadow-card">
+          <div class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:#4A5E74;">Monthly (M)</div>
+          <div id="monthly-payment" class="text-3xl font-bold text-white font-head" style="letter-spacing:-0.04em;">$555</div>
+          <div class="text-[10px] mt-1" style="color:#4A5E74;">per month</div>
+        </div>
+        <div class="glass rounded-2xl p-5 text-center shadow-card">
+          <div class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:#4A5E74;">Total Interest</div>
+          <div id="total-interest" class="text-3xl font-bold text-warn font-head" style="letter-spacing:-0.04em;">$8,300</div>
+          <div class="text-[10px] mt-1" style="color:#4A5E74;">over loan term</div>
+        </div>
+        <div class="glass rounded-2xl p-5 text-center shadow-card" style="border-color:rgba(0,196,140,0.2);">
+          <div class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:#4A5E74;">Best Rate (760+)</div>
+          <div id="best-monthly" class="text-3xl font-bold text-good font-head" style="letter-spacing:-0.04em;">$480</div>
+          <div class="text-[10px] mt-1 text-good">@ 6.49% APR</div>
+        </div>
+        <div class="rounded-2xl p-5 text-center shadow-dp" style="background:linear-gradient(135deg,rgba(0,196,140,0.12),rgba(0,196,140,0.04));border:1px solid rgba(0,196,140,0.3);">
+          <div class="text-xs font-semibold uppercase tracking-wider mb-2 text-good">Your Delta (Δ)</div>
+          <div id="interest-delta" class="text-3xl font-bold text-good font-head" style="letter-spacing:-0.04em;">$4,500</div>
+          <div class="text-[10px] mt-1 text-good">interest saved at 760+</div>
+        </div>
+      </div>
+
+      <!-- Score tier table -->
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="px-5 py-3 border-b" style="border-color:rgba(255,255,255,0.05);">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color:#4A5E74;">Market Rate Adapter · Score → APR Tiers</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs font-mono">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <th class="px-5 py-2.5 text-left font-semibold" style="color:#4A5E74;">Score Range</th>
+                <th class="px-5 py-2.5 text-left font-semibold" style="color:#4A5E74;">Grade</th>
+                <th class="px-5 py-2.5 text-left font-semibold" style="color:#4A5E74;">APR</th>
+                <th class="px-5 py-2.5 text-left font-semibold" style="color:#4A5E74;">Monthly ($25k/60mo)</th>
+                <th class="px-5 py-2.5 text-left font-semibold" style="color:#4A5E74;">Total Interest</th>
+                <th class="px-5 py-2.5 text-left font-semibold" style="color:#4A5E74;">Delta vs. Poor</th>
+              </tr>
+            </thead>
+            <tbody id="tier-table">
+              <!-- filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ UNDERWRITER AGENT ═══ -->
+<section id="underwriter" class="py-28 divider relative overflow-hidden">
+  <div class="orb w-[400px] h-[400px] bg-dp-blue/10 top-0 right-[-100px]"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Left: Copy -->
       <div class="reveal">
-        <div class="glass rounded-3xl p-8 shadow-lc max-w-[480px]">
-          <!-- Card header -->
-          <div class="flex justify-between items-center mb-6">
+        <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF;border-color:rgba(30,102,220,0.3);background:rgba(30,102,220,0.08);">
+          Agent 1 · LangGraph Node
+        </div>
+        <h2 class="section-title text-white mb-4">The <span class="text-grad-blue">Underwriter</span> Agent</h2>
+        <p style="color:#7A8EA8;" class="leading-relaxed mb-8">A deterministic LangGraph node that ingests real-time credit inputs, applies pluggable market rate cards, and outputs a risk grade with a precise interest tier — no hallucinations, no guesswork.</p>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(30,102,220,0.15);border:1px solid rgba(30,102,220,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#3D84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">Deterministic risk grading (A+ → D)</p><p class="text-xs" style="color:#7A8EA8;">Grade computed from DTI, utilization, payment history, inquiries, and credit age using fixed formula weights.</p></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(30,102,220,0.15);border:1px solid rgba(30,102,220,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#3D84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">Pluggable market rate cards</p><p class="text-xs" style="color:#7A8EA8;">Swap in any lender's rate sheet via JSON. The agent re-runs and outputs the optimal APR tier per provider.</p></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(30,102,220,0.15);border:1px solid rgba(30,102,220,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#3D84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">Stateful LangGraph cycles</p><p class="text-xs" style="color:#7A8EA8;">The agent re-evaluates on every credit change event, maintaining state across utilization spikes and score shifts.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Live agent panel -->
+      <div class="reveal">
+        <div class="glass rounded-2xl overflow-hidden shadow-dp">
+          <!-- Agent header -->
+          <div class="px-5 py-4 flex items-center justify-between" style="background:rgba(30,102,220,0.08);border-bottom:1px solid rgba(30,102,220,0.15);">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-good anim-blink"></div>
+              <span class="text-xs font-mono font-semibold text-white">underwriter_agent.py</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded" style="background:rgba(0,196,140,0.15);color:#00C48C;">RUNNING</span>
+              <span class="text-[10px]" style="color:#4A5E74;">LangGraph v0.1</span>
+            </div>
+          </div>
+
+          <!-- Mock credit inputs -->
+          <div class="p-5 space-y-3">
+            <p class="text-[10px] font-semibold uppercase tracking-wider mb-3" style="color:#4A5E74;">Credit Inputs (Mock Profile: Sarah K.)</p>
+
+            <!-- Inputs grid -->
+            <div class="grid grid-cols-2 gap-2">
+              <div class="glass rounded-xl p-3">
+                <div class="text-[9px] mb-1" style="color:#4A5E74;">FICO Score</div>
+                <input id="uw-score" type="number" value="714" min="300" max="850" oninput="runUnderwriter()"
+                  class="bg-transparent text-white font-mono text-lg font-bold w-full outline-none" style="letter-spacing:-0.03em;"/>
+              </div>
+              <div class="glass rounded-xl p-3">
+                <div class="text-[9px] mb-1" style="color:#4A5E74;">DTI Ratio (%)</div>
+                <input id="uw-dti" type="number" value="28" min="5" max="60" step="1" oninput="runUnderwriter()"
+                  class="bg-transparent text-white font-mono text-lg font-bold w-full outline-none" style="letter-spacing:-0.03em;"/>
+              </div>
+              <div class="glass rounded-xl p-3">
+                <div class="text-[9px] mb-1" style="color:#4A5E74;">Utilization (%)</div>
+                <input id="uw-util" type="number" value="71" min="0" max="100" step="1" oninput="runUnderwriter()"
+                  class="bg-transparent text-white font-mono text-lg font-bold w-full outline-none" style="letter-spacing:-0.03em;"/>
+              </div>
+              <div class="glass rounded-xl p-3">
+                <div class="text-[9px] mb-1" style="color:#4A5E74;">Hard Inquiries</div>
+                <input id="uw-inq" type="number" value="2" min="0" max="20" step="1" oninput="runUnderwriter()"
+                  class="bg-transparent text-white font-mono text-lg font-bold w-full outline-none" style="letter-spacing:-0.03em;"/>
+              </div>
+            </div>
+
+            <!-- Agent output -->
+            <div class="rounded-xl p-4 mt-2" style="background:rgba(5,17,31,0.8);border:1px solid rgba(30,102,220,0.18);">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-1.5 h-1.5 rounded-full bg-dp-bright anim-blink"></div>
+                <span class="text-[10px] font-mono" style="color:#4A5E74;">agent.output</span>
+              </div>
+              <div class="space-y-2 font-mono text-xs">
+                <div class="flex justify-between items-center">
+                  <span style="color:#4A5E74;">risk_grade</span>
+                  <span id="uw-grade" class="font-bold px-2 py-0.5 rounded border grade-B">B</span>
+                </div>
+                <div class="flex justify-between">
+                  <span style="color:#4A5E74;">interest_tier</span>
+                  <span id="uw-tier" class="text-warn font-semibold">12.49%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span style="color:#4A5E74;">approval_prob</span>
+                  <span id="uw-prob" class="text-good font-semibold">84.2%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span style="color:#4A5E74;">score_to_upgrade</span>
+                  <span id="uw-upgrade" class="text-dp-bright font-semibold">+21 pts → B+</span>
+                </div>
+                <div class="flex justify-between">
+                  <span style="color:#4A5E74;">delta_saved</span>
+                  <span id="uw-delta" class="text-good font-semibold">$1,250</span>
+                </div>
+                <div class="border-t mt-2 pt-2" style="border-color:rgba(255,255,255,0.06);">
+                  <span style="color:#4A5E74;">action</span>
+                  <p id="uw-action" class="text-good mt-1 text-[10px] leading-relaxed">Reduce Chase utilization to 30% → unlocks B+ tier → APR drops to 9.99%</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lender comparison -->
             <div>
-              <p class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:#4A5E74;">TransUnion · VantageScore 3.0</p>
-              <p class="text-sm font-medium text-white">Updated today</p>
-            </div>
-            <div class="score-badge px-3 py-1.5 rounded-full text-xs font-semibold text-good">Free</div>
-          </div>
-
-          <!-- Big score ring -->
-          <div class="flex flex-col items-center mb-6">
-            <div class="relative w-48 h-48">
-              <svg class="w-full h-full -rotate-90" viewBox="0 0 200 200">
-                <!-- Track -->
-                <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
-                <!-- Low segment -->
-                <circle cx="100" cy="100" r="82" fill="none" stroke="#F25454" stroke-width="14"
-                  stroke-dasharray="514" stroke-dashoffset="380" stroke-linecap="round" opacity="0.6"/>
-                <!-- Mid segment -->
-                <circle cx="100" cy="100" r="82" fill="none" stroke="#F7A23B" stroke-width="14"
-                  stroke-dasharray="514" stroke-dashoffset="310" stroke-linecap="round" opacity="0.7"/>
-                <!-- Good segment — filled to ~714 position -->
-                <circle cx="100" cy="100" r="82" fill="none" stroke="#00C48C" stroke-width="16"
-                  stroke-dasharray="514" stroke-dashoffset="170" stroke-linecap="round"/>
-              </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
-                <span class="text-5xl font-bold text-white font-head" style="letter-spacing:-0.05em;">714</span>
-                <span class="text-good text-sm font-semibold">Good</span>
-                <span class="text-xs" style="color:#4A5E74;">of 850</span>
-              </div>
-            </div>
-            <!-- Range bar -->
-            <div class="w-full max-w-xs mt-4">
-              <div class="h-1.5 rounded-full overflow-hidden" style="background:linear-gradient(90deg,#F25454 0%,#F7A23B 35%,#00C48C 65%,#00A8D6 100%);">
-              </div>
-              <div class="flex justify-between text-[10px] mt-1.5" style="color:#4A5E74;">
-                <span>300</span><span>Poor</span><span>Fair</span><span>Good</span><span>Excellent</span><span>850</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Score factors -->
-          <div class="space-y-3">
-            <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:#4A5E74;">Score Factors</p>
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-white">Payment History</span>
-              <div class="flex items-center gap-2">
-                <div class="h-1.5 w-28 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full bg-good" style="width:92%;"></div></div>
-                <span class="text-xs text-good font-medium w-12 text-right">Excellent</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-white">Credit Utilization</span>
-              <div class="flex items-center gap-2">
-                <div class="h-1.5 w-28 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full bg-warn" style="width:58%;"></div></div>
-                <span class="text-xs text-warn font-medium w-12 text-right">High</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-white">Credit Age</span>
-              <div class="flex items-center gap-2">
-                <div class="h-1.5 w-28 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full" style="width:70%;background:#3D84FF;"></div></div>
-                <span class="text-xs font-medium w-12 text-right" style="color:#3D84FF;">Good</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-white">Hard Inquiries</span>
-              <div class="flex items-center gap-2">
-                <div class="h-1.5 w-28 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full bg-good" style="width:85%;"></div></div>
-                <span class="text-xs text-good font-medium w-12 text-right">Low</span>
+              <p class="text-[10px] font-semibold uppercase tracking-wider mb-2" style="color:#4A5E74;">Market Rate Adapter · Multi-Lender Output</p>
+              <div class="space-y-1.5">
+                <div class="flex justify-between items-center glass rounded-lg px-3 py-2">
+                  <span class="text-xs text-white">Personal Loan Co.</span>
+                  <div class="flex items-center gap-2"><div class="h-1 w-16 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full bg-warn" style="width:75%;"></div></div><span id="lend-1" class="text-xs font-mono text-warn w-12 text-right">12.49%</span></div>
+                </div>
+                <div class="flex justify-between items-center glass rounded-lg px-3 py-2">
+                  <span class="text-xs text-white">CreditUnion Direct</span>
+                  <div class="flex items-center gap-2"><div class="h-1 w-16 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full" style="width:60%;background:#3D84FF;"></div></div><span class="text-xs font-mono text-dp-bright w-12 text-right">9.90%</span></div>
+                </div>
+                <div class="flex justify-between items-center glass rounded-lg px-3 py-2">
+                  <span class="text-xs text-white">Fintech Lender X</span>
+                  <div class="flex items-center gap-2"><div class="h-1 w-16 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full bg-good" style="width:48%;"></div></div><span class="text-xs font-mono text-good w-12 text-right">8.24%</span></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ COACH AGENT ═══ -->
+<section class="py-28 divider relative overflow-hidden">
+  <div class="orb w-[400px] h-[400px] bg-good/8 bottom-0 left-[-100px]"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Left: Live Coach panel -->
+      <div class="reveal order-2 lg:order-1">
+        <div class="glass rounded-2xl overflow-hidden shadow-card">
+          <!-- Header -->
+          <div class="px-5 py-4 flex items-center justify-between" style="background:rgba(0,196,140,0.06);border-bottom:1px solid rgba(0,196,140,0.15);">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-good anim-blink"></div>
+              <span class="text-xs font-mono font-semibold text-white">coach_agent.py · Gemini 1.5 Pro</span>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded" style="background:rgba(0,196,140,0.15);color:#00C48C;">MONITORING</span>
+          </div>
+
+          <!-- Utilization spike alert -->
+          <div class="p-5">
+            <p class="text-[10px] font-semibold uppercase tracking-wider mb-3" style="color:#4A5E74;">Proactive Alerts · Last 24h</p>
+
+            <!-- Alert 1 -->
+            <div class="rounded-xl p-4 mb-3" style="background:rgba(242,84,84,0.07);border:1px solid rgba(242,84,84,0.25);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-bad anim-blink"></div>
+                  <span class="text-xs font-semibold text-bad">UTILIZATION SPIKE DETECTED</span>
+                </div>
+                <span class="text-[9px] font-mono" style="color:#4A5E74;">2h ago</span>
+              </div>
+              <p class="text-xs text-white mb-2">Chase Sapphire: <span class="text-bad font-mono">71%</span> utilization — triggers score penalty of <span class="text-bad font-semibold">-18 pts</span></p>
+              <div class="glass rounded-lg p-2.5">
+                <p class="text-[10px] font-semibold text-good mb-1">Coach Recommendation (Balance-to-Rate Arbitrage):</p>
+                <p class="text-[10px]" style="color:#A8BDD4;">Pay <span class="text-warn font-mono font-semibold">$1,600</span> on Chase now → util drops to <span class="text-good font-semibold">28%</span> → score recovers <span class="text-good font-semibold">+18 pts</span> → APR tier improves from 12.49% to 9.99% → saves <span class="text-good font-semibold">$1,250</span></p>
+              </div>
+            </div>
+
+            <!-- Alert 2 -->
+            <div class="rounded-xl p-4 mb-3" style="background:rgba(247,162,59,0.07);border:1px solid rgba(247,162,59,0.2);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-warn"></div>
+                  <span class="text-xs font-semibold text-warn">RATE ARBITRAGE OPPORTUNITY</span>
+                </div>
+                <span class="text-[9px] font-mono" style="color:#4A5E74;">6h ago</span>
+              </div>
+              <p class="text-xs text-white mb-2">Fed rate hold announced — personal loan spreads narrowing by <span class="text-warn font-mono">0.25%</span> at Fintech Lender X</p>
+              <div class="glass rounded-lg p-2.5">
+                <p class="text-[10px]" style="color:#A8BDD4;">Refinance window open for 14 days. At current Grade B+: lock <span class="text-good font-semibold">8.24% APR</span> vs. market avg <span class="text-bad font-mono">12.49%</span>. Net delta: <span class="text-good font-semibold">$2,100 saved</span></p>
+              </div>
+            </div>
+
+            <!-- Chat interface -->
+            <div class="glass rounded-xl overflow-hidden">
+              <div class="px-4 py-3 border-b" style="border-color:rgba(255,255,255,0.06);">
+                <span class="text-[10px] font-mono" style="color:#4A5E74;">Delta AI Chat · Gemini 1.5 Pro + GraphRAG</span>
+              </div>
+              <div class="p-4 space-y-3 max-h-48 overflow-y-auto" id="coach-chat">
+                <div class="flex gap-2 items-start">
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(0,196,140,0.2);"><span class="text-[8px] font-bold text-good">DP</span></div>
+                  <div class="rounded-lg rounded-tl-none px-3 py-2 text-[10px] text-white flex-1" style="background:rgba(255,255,255,0.04);">Your Chase utilization hit 71% — I've flagged a balance-to-rate arbitrage. Pay $1,600 today to recover 18 pts and drop to the 9.99% tier. Want me to model the full amortization?</div>
+                </div>
+                <div class="flex gap-2 items-start justify-end">
+                  <div class="rounded-lg rounded-tr-none px-3 py-2 text-[10px] text-white" style="background:rgba(30,102,220,0.2);border:1px solid rgba(30,102,220,0.25);">Yes — show me the numbers</div>
+                </div>
+                <div class="flex gap-2 items-start">
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(0,196,140,0.2);"><span class="text-[8px] font-bold text-good">DP</span></div>
+                  <div class="rounded-lg rounded-tl-none px-3 py-2 text-[10px] flex-1" style="background:rgba(0,196,140,0.08);border:1px solid rgba(0,196,140,0.2);">
+                    <span class="text-good font-semibold">$25k / 60mo:</span><br/>
+                    <span style="color:#A8BDD4;">Current (12.49%): <span class="text-bad">$564/mo · $8,822 interest</span></span><br/>
+                    <span style="color:#A8BDD4;">After (9.99%): <span class="text-good">$530/mo · $6,820 interest</span></span><br/>
+                    <span class="text-good font-semibold">→ Delta: $2,002 saved 💰</span>
+                  </div>
+                </div>
+              </div>
+              <div class="px-4 pb-4 pt-2 flex gap-2">
+                <input id="coach-input" type="text" placeholder="Ask the Coach Agent anything..." class="flex-1 bg-transparent text-xs text-white outline-none px-3 py-2 rounded-lg" style="border:1px solid rgba(255,255,255,0.1);" onkeydown="if(event.key==='Enter')sendCoachMessage()"/>
+                <button onclick="sendCoachMessage()" class="btn-blue text-white text-xs font-semibold px-3 py-2 rounded-lg">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Copy -->
+      <div class="reveal order-1 lg:order-2">
+        <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#00C48C;border-color:rgba(0,196,140,0.3);background:rgba(0,196,140,0.08);">
+          Agent 2 · Gemini 1.5 Pro + GraphRAG
+        </div>
+        <h2 class="section-title text-white mb-4">The <span class="text-grad-green">Coach</span> Agent</h2>
+        <p style="color:#7A8EA8;" class="leading-relaxed mb-8">A proactive LLM layer that monitors your credit utilization in real-time and surfaces Balance-to-Rate arbitrage maneuvers — telling you exactly which payment, made today, yields the largest APR reduction.</p>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">Utilization spike detection</p><p class="text-xs" style="color:#7A8EA8;">Monitors every balance change and fires alerts when utilization crosses score-penalty thresholds.</p></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">GraphRAG macro awareness</p><p class="text-xs" style="color:#7A8EA8;">LlamaIndex indexes global interest rate trends — the coach adjusts its target rate recommendations when Fed policy shifts.</p></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">MCP protocol bridge</p><p class="text-xs" style="color:#7A8EA8;">Connects the LLM to your local financial data, CSVs, and private calculation tools via the Model Context Protocol.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ IDENTITY VAULT ═══ -->
+<section id="vault" class="py-28 divider relative overflow-hidden">
+  <div class="orb w-[500px] h-[500px] bg-[#8B5CF6]/10 top-1/2 right-[-150px] -translate-y-1/2"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
 
       <!-- Copy -->
       <div class="reveal">
-        <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF;border-color:rgba(30,102,220,0.3);background:rgba(30,102,220,0.08);">
-          Free Credit Monitoring
+        <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#B464FF;border-color:rgba(180,100,255,0.3);background:rgba(180,100,255,0.08);">
+          Multimodal · Gemini 1.5 Flash Vision
         </div>
-        <h2 class="section-title text-white mb-6">
-          Your credit score,<br/><span class="text-grad-blue">always up to date</span>
-        </h2>
-        <p class="text-[#7A8EA8] leading-[1.72] mb-8 text-[16px]">
-          See your VantageScore 3.0 credit score from TransUnion, updated daily. Understand exactly what's helping and hurting your score — with personalized, actionable recommendations.
-        </p>
+        <h2 class="section-title text-white mb-4">The Identity <span class="text-grad-gold">Vault</span></h2>
+        <p style="color:#7A8EA8;" class="leading-relaxed mb-8">Gemini 1.5 Flash parses W2s, pay stubs, and tax returns in seconds using native multimodal vision. Agentic OCR workflows verify income and identity in real-time — reducing Time-to-Verification by <strong class="text-white">80%</strong>.</p>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(180,100,255,0.15);border:1px solid rgba(180,100,255,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#B464FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">Vision-to-data extraction</p><p class="text-xs" style="color:#7A8EA8;">Upload any W2, pay stub, or tax return image. Gemini Flash extracts structured income, employment, and deduction data.</p></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(180,100,255,0.15);border:1px solid rgba(180,100,255,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#B464FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">Agentic verification loop</p><p class="text-xs" style="color:#7A8EA8;">Cross-references extracted data against credit bureau records. Flags mismatches and requests re-upload automatically.</p></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(180,100,255,0.15);border:1px solid rgba(180,100,255,0.3);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#B464FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="text-sm text-white font-medium mb-0.5">80% faster time-to-verification</p><p class="text-xs" style="color:#7A8EA8;">What takes manual underwriting 3-5 days completes in under 60 seconds via the multimodal pipeline.</p></div>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="glass rounded-xl p-4 text-center shadow-card">
+            <div class="text-2xl font-bold text-white font-head" style="letter-spacing:-0.04em;">80%</div>
+            <div class="text-[10px] mt-1" style="color:#4A5E74;">faster verification</div>
+          </div>
+          <div class="glass rounded-xl p-4 text-center shadow-card">
+            <div class="text-2xl font-bold text-white font-head" style="letter-spacing:-0.04em;">&lt;60s</div>
+            <div class="text-[10px] mt-1" style="color:#4A5E74;">parse time</div>
+          </div>
+          <div class="glass rounded-xl p-4 text-center shadow-card">
+            <div class="text-2xl font-bold text-white font-head" style="letter-spacing:-0.04em;">3 docs</div>
+            <div class="text-[10px] mt-1" style="color:#4A5E74;">W2, stub, return</div>
+          </div>
+        </div>
+      </div>
 
-        <ul class="space-y-4 mb-8">
-          <li class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- Right: Vault UI mock -->
+      <div class="reveal">
+        <div class="glass rounded-2xl overflow-hidden shadow-card">
+          <!-- Header -->
+          <div class="px-5 py-4 flex items-center justify-between" style="background:rgba(180,100,255,0.06);border-bottom:1px solid rgba(180,100,255,0.15);">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full anim-blink" style="background:#B464FF;"></div>
+              <span class="text-xs font-mono font-semibold text-white">identity_vault.py · Gemini 1.5 Flash</span>
             </div>
-            <span class="text-sm text-[#A8BDD4]">No credit pull — never affects your score</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <span class="text-sm text-[#A8BDD4]">Real-time alerts for score changes or suspicious activity</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <span class="text-sm text-[#A8BDD4]">Score simulator: see impact before you make a move</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 4" stroke="#00C48C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <span class="text-sm text-[#A8BDD4]">Personalized rate recommendations tied to your live score</span>
-          </li>
-        </ul>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded" style="background:rgba(180,100,255,0.15);color:#B464FF;">VERIFIED</span>
+          </div>
 
-        <a href="#" class="btn-blue text-white font-semibold text-sm px-8 py-3.5 rounded-xl inline-flex items-center gap-2">
-          See My Free Score
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+          <div class="p-5 space-y-4">
+            <!-- Document upload area -->
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wider mb-3" style="color:#4A5E74;">Document Queue</p>
+              <div class="space-y-2">
+                <!-- Doc 1: processed -->
+                <div class="flex items-center gap-3 glass rounded-xl p-3">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(0,196,140,0.15);border:1px solid rgba(0,196,140,0.3);">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2h6l3 3v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" stroke="#00C48C" stroke-width="1.3"/><path d="M9 2v3h3M4.5 8l1.5 1.5L9 6" stroke="#00C48C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-xs font-medium text-white">W2_2023_Sarah_K.pdf</div>
+                    <div class="text-[9px] text-good">Parsed · Income: $94,200 · Employer: Verified</div>
+                  </div>
+                  <span class="text-[9px] font-mono text-good shrink-0">✓ 4.2s</span>
+                </div>
+                <!-- Doc 2: processing -->
+                <div class="flex items-center gap-3 glass rounded-xl p-3 relative overflow-hidden" id="doc-2">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(247,162,59,0.12);border:1px solid rgba(247,162,59,0.3);">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2h6l3 3v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" stroke="#F7A23B" stroke-width="1.3"/><path d="M9 2v3h3" stroke="#F7A23B" stroke-width="1.3"/><line x1="5" y1="8" x2="9" y2="8" stroke="#F7A23B" stroke-width="1.3" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-xs font-medium text-white">PayStub_Dec_2023.jpg</div>
+                    <div class="text-[9px] text-warn">Scanning with Gemini Flash Vision...</div>
+                    <div class="h-1 rounded-full mt-1.5 overflow-hidden" style="background:rgba(255,255,255,0.08);"><div class="h-full rounded-full bg-warn" id="scan-progress" style="width:0%;transition:width 0.1s linear;"></div></div>
+                  </div>
+                  <span class="text-[9px] font-mono text-warn shrink-0 anim-blink">OCR</span>
+                  <!-- Scan line overlay -->
+                  <div class="scan-line" style="background:linear-gradient(90deg,transparent,rgba(247,162,59,0.4),transparent);"></div>
+                </div>
+                <!-- Doc 3: queued -->
+                <div class="flex items-center gap-3 glass rounded-xl p-3" style="opacity:0.45;">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2h6l3 3v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" stroke="#4A5E74" stroke-width="1.3"/><path d="M9 2v3h3" stroke="#4A5E74" stroke-width="1.3"/></svg>
+                  </div>
+                  <div class="flex-1"><div class="text-xs font-medium text-white">1040_TaxReturn_2023.pdf</div><div class="text-[9px]" style="color:#4A5E74;">Queued</div></div>
+                  <span class="text-[9px] font-mono" style="color:#4A5E74;">Pending</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Extracted data output -->
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wider mb-3" style="color:#4A5E74;">Extracted Identity Data</p>
+              <div class="rounded-xl p-4 font-mono text-xs space-y-2" style="background:rgba(5,17,31,0.8);border:1px solid rgba(180,100,255,0.18);">
+                <div class="flex justify-between"><span style="color:#4A5E74;">gross_income</span><span class="text-good">$94,200 / yr</span></div>
+                <div class="flex justify-between"><span style="color:#4A5E74;">monthly_income</span><span class="text-white">$7,850</span></div>
+                <div class="flex justify-between"><span style="color:#4A5E74;">employer</span><span class="text-white">Acme Corp <span class="text-good">✓ verified</span></span></div>
+                <div class="flex justify-between"><span style="color:#4A5E74;">employment_type</span><span class="text-white">W-2 Full-Time</span></div>
+                <div class="flex justify-between"><span style="color:#4A5E74;">dti_ratio</span><span class="text-warn">28.4% <span style="color:#4A5E74;">(acceptable)</span></span></div>
+                <div class="flex justify-between"><span style="color:#4A5E74;">identity_match</span><span class="text-good">98.7% confidence</span></div>
+                <div class="flex justify-between"><span style="color:#4A5E74;">parse_time</span><span style="color:#B464FF;">4.2s (Gemini Flash)</span></div>
+                <div class="border-t pt-2 mt-1" style="border-color:rgba(255,255,255,0.06);">
+                  <span style="color:#4A5E74;">vault_status</span>
+                  <span class="ml-4" style="color:#B464FF;">VERIFIED ·</span>
+                  <span class="text-good"> Ready for underwriting</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Drop zone -->
+            <div onclick="triggerMockUpload()" class="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all hover:border-opacity-60" style="border-color:rgba(180,100,255,0.3);" id="drop-zone">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mx-auto mb-2" style="color:#B464FF;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <p class="text-xs font-medium" style="color:#B464FF;" id="drop-label">Drop W2, pay stub, or tax return</p>
+              <p class="text-[10px] mt-1" style="color:#4A5E74;">PDF or image · Parsed by Gemini 1.5 Flash</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     FEATURES — 4 cards (Credit Karma card grid style)
-═══════════════════════════════════════════════════════ -->
+<!-- ═══ FEATURES OVERVIEW ═══ -->
 <section id="features" class="py-28 divider relative overflow-hidden">
-  <div class="orb w-[450px] h-[450px] bg-lc-blue/9 top-1/2 right-[-100px] -translate-y-1/2"></div>
-
+  <div class="orb w-[450px] h-[450px] bg-dp-blue/9 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-      <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF;border-color:rgba(30,102,220,0.3);background:rgba(30,102,220,0.08);">
-        Four Powerful Tools
-      </div>
-      <h2 class="section-title text-white mb-4">Everything in one<br/><span class="text-grad-blue">intelligent platform</span></h2>
-      <p class="text-[#7A8EA8] leading-relaxed">Your credit score, rate optimizer, debt payoff automation, and AI coach — all working together.</p>
+    <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+      <h2 class="section-title text-white mb-4">The complete <span class="text-grad-blue">vibe stack</span></h2>
+      <p style="color:#7A8EA8;" class="leading-relaxed">Four interconnected layers — orchestration, intelligence, identity, and UI — all working as a single agentic system.</p>
     </div>
-
     <div class="grid md:grid-cols-2 gap-5">
-
-      <!-- Card 1 -->
       <div class="glass glass-hover rounded-2xl p-7 shadow-card reveal">
-        <div class="flex items-center gap-4 mb-5">
+        <div class="flex items-center gap-4 mb-4">
           <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,rgba(30,102,220,0.22),rgba(30,102,220,0.06));border:1px solid rgba(30,102,220,0.28);">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2Z" stroke="#3D84FF" stroke-width="1.6"/>
-              <path d="M10 6v4l2.5 2.5" stroke="#3D84FF" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="4" r="2" stroke="#3D84FF" stroke-width="1.6"/><circle cx="4" cy="14" r="2" stroke="#3D84FF" stroke-width="1.6"/><circle cx="16" cy="14" r="2" stroke="#3D84FF" stroke-width="1.6"/><path d="M10 6v4M10 10l-4 2M10 10l4 2" stroke="#3D84FF" stroke-width="1.4" stroke-linecap="round"/></svg>
           </div>
-          <h3 class="text-base font-semibold text-white font-head">Credit Score Dashboard</h3>
+          <div><h3 class="text-base font-semibold text-white font-head">Agentic Orchestration</h3><p class="text-[10px] mt-0.5" style="color:#4A5E74;">LangGraph · Stateful cyclic workflows</p></div>
         </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#7A8EA8;">Live credit score from TransUnion with daily updates, score factors, and a personalized DeltaPoint insight showing your next APR tier.</p>
-        <!-- Mini bar chart -->
-        <div class="glass rounded-xl p-4">
-          <div class="flex items-end gap-1 h-10 mb-1.5">
-            <div class="flex-1 rounded-sm" style="height:40%;background:rgba(30,102,220,0.3);"></div>
-            <div class="flex-1 rounded-sm" style="height:52%;background:rgba(30,102,220,0.38);"></div>
-            <div class="flex-1 rounded-sm" style="height:48%;background:rgba(30,102,220,0.42);"></div>
-            <div class="flex-1 rounded-sm" style="height:65%;background:rgba(30,102,220,0.5);"></div>
-            <div class="flex-1 rounded-sm" style="height:60%;background:rgba(30,102,220,0.55);"></div>
-            <div class="flex-1 rounded-sm" style="height:75%;background:rgba(30,102,220,0.62);"></div>
-            <div class="flex-1 rounded-sm" style="height:85%;background:#1E66DC;box-shadow:0 0 6px rgba(30,102,220,0.55);"></div>
-          </div>
-          <div class="flex justify-between text-[10px]" style="color:#4A5E74;">
-            <span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span class="text-good font-medium">714↑</span>
-          </div>
-        </div>
+        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">The Underwriter Agent (deterministic) and Coach Agent (LLM) run as LangGraph nodes — stateful, cyclical, and re-evaluating on every credit event.</p>
       </div>
-
-      <!-- Card 2 -->
       <div class="glass glass-hover rounded-2xl p-7 shadow-card reveal">
-        <div class="flex items-center gap-4 mb-5">
+        <div class="flex items-center gap-4 mb-4">
           <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,rgba(0,196,140,0.2),rgba(0,196,140,0.05));border:1px solid rgba(0,196,140,0.28);">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M3 10h14M3 6l8-4 8 4M3 14l8 4 8-4" stroke="#00C48C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2Z" stroke="#00C48C" stroke-width="1.6"/><path d="M6 10h4l2-4 2 8 2-4h2" stroke="#00C48C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <h3 class="text-base font-semibold text-white font-head">Rate Optimizer</h3>
+          <div><h3 class="text-base font-semibold text-white font-head">Intelligence & GraphRAG</h3><p class="text-[10px] mt-0.5" style="color:#4A5E74;">Gemini 1.5 Pro · LlamaIndex · MCP</p></div>
         </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#7A8EA8;">Simulate your credit score at 714, 735, and 760 — see the exact APR and interest savings each milestone unlocks before you apply.</p>
-        <!-- APR comparison -->
-        <div class="glass rounded-xl p-4 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs" style="color:#7A8EA8;">Score 714 (now)</span>
-            <div class="flex items-center gap-2">
-              <div class="h-1 w-24 rounded-full overflow-hidden" style="background:rgba(242,84,84,0.2);"><div class="h-full rounded-full bg-bad" style="width:100%;"></div></div>
-              <span class="text-xs font-semibold text-bad w-14 text-right">12.5% APR</span>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-xs" style="color:#7A8EA8;">Score 735</span>
-            <div class="flex items-center gap-2">
-              <div class="h-1 w-24 rounded-full overflow-hidden" style="background:rgba(247,162,59,0.2);"><div class="h-full rounded-full bg-warn" style="width:73%;"></div></div>
-              <span class="text-xs font-semibold text-warn w-14 text-right">9.4% APR</span>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-xs" style="color:#7A8EA8;">Score 760</span>
-            <div class="flex items-center gap-2">
-              <div class="h-1 w-24 rounded-full overflow-hidden" style="background:rgba(0,196,140,0.2);"><div class="h-full rounded-full bg-good" style="width:53%;"></div></div>
-              <span class="text-xs font-semibold text-good w-14 text-right">7.1% APR</span>
-            </div>
-          </div>
-        </div>
+        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">Gemini 1.5 Pro analyzes financial documents. LlamaIndex GraphRAG indexes global rate trends. MCP bridges the LLM to local data and private calculation tools.</p>
       </div>
-
-      <!-- Card 3 -->
       <div class="glass glass-hover rounded-2xl p-7 shadow-card reveal">
-        <div class="flex items-center gap-4 mb-5">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,rgba(247,162,59,0.2),rgba(247,162,59,0.05));border:1px solid rgba(247,162,59,0.28);">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <rect x="2" y="5" width="16" height="12" rx="2" stroke="#F7A23B" stroke-width="1.6"/>
-              <path d="M2 9h16" stroke="#F7A23B" stroke-width="1.6"/>
-              <circle cx="6" cy="13.5" r="1.2" fill="#F7A23B"/>
-            </svg>
-          </div>
-          <h3 class="text-base font-semibold text-white font-head">Direct Pay Automation</h3>
-        </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#7A8EA8;">Authorize DeltaPoint to route your loan proceeds directly to high-utilization creditors — slashing utilization and boosting your score from day one.</p>
-        <!-- Creditor toggles -->
-        <div class="glass rounded-xl p-4 space-y-2">
-          <p class="text-[10px] uppercase tracking-wider font-semibold mb-2.5" style="color:#4A5E74;">Creditors to Pay</p>
-          <div class="flex justify-between items-center">
-            <div><span class="text-xs text-white">Chase Sapphire</span><span class="text-[9px] ml-2 text-bad">95% util</span></div>
-            <div class="w-9 h-5 rounded-full relative" style="background:rgba(30,102,220,0.3);border:1px solid rgba(30,102,220,0.45);">
-              <div class="absolute right-0.5 top-0.5 w-3.5 h-3.5 rounded-full" style="background:#1E66DC;box-shadow:0 0 6px rgba(30,102,220,0.7);"></div>
-            </div>
-          </div>
-          <div class="flex justify-between items-center">
-            <div><span class="text-xs text-white">Chase Freedom</span><span class="text-[9px] ml-2 text-warn">85% util</span></div>
-            <div class="w-9 h-5 rounded-full relative" style="background:rgba(30,102,220,0.3);border:1px solid rgba(30,102,220,0.45);">
-              <div class="absolute right-0.5 top-0.5 w-3.5 h-3.5 rounded-full" style="background:#1E66DC;box-shadow:0 0 6px rgba(30,102,220,0.7);"></div>
-            </div>
-          </div>
-          <div class="flex justify-between items-center" style="opacity:0.45;">
-            <div><span class="text-xs text-white">Total Visa</span><span class="text-[9px] ml-2 text-good">13% util</span></div>
-            <div class="w-9 h-5 rounded-full relative" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);">
-              <div class="absolute left-0.5 top-0.5 w-3.5 h-3.5 rounded-full" style="background:rgba(255,255,255,0.3);"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="glass glass-hover rounded-2xl p-7 shadow-card reveal">
-        <div class="flex items-center gap-4 mb-5">
+        <div class="flex items-center gap-4 mb-4">
           <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,rgba(180,100,255,0.2),rgba(180,100,255,0.05));border:1px solid rgba(180,100,255,0.28);">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2C6 2 3 5 3 9c0 3 1.8 5.5 4.5 6.7V18l3-2 3 2v-2.3C16.2 14.5 18 12 18 9c0-4-3-7-8-7Z" stroke="#B464FF" stroke-width="1.6"/>
-              <path d="M7.5 9.5h5M7.5 7h2" stroke="#B464FF" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="#B464FF" stroke-width="1.6"/><path d="M7 10l2 2 4-4" stroke="#B464FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <h3 class="text-base font-semibold text-white font-head">Delta AI Assistant</h3>
+          <div><h3 class="text-base font-semibold text-white font-head">Identity Vault</h3><p class="text-[10px] mt-0.5" style="color:#4A5E74;">Gemini 1.5 Flash · Agentic OCR</p></div>
         </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#7A8EA8;">Ask the Delta AI coach anything about your credit. It surfaces the highest-ROI action, coaches you step-by-step, and updates your plan as your score moves.</p>
-        <!-- Chat preview -->
-        <div class="glass rounded-xl p-4 space-y-2.5">
-          <div class="flex gap-2 items-start">
-            <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(30,102,220,0.25);">
-              <span class="text-[7px] font-bold" style="color:#3D84FF;">DP</span>
-            </div>
-            <div class="rounded-lg rounded-tl-none px-3 py-2 text-[10px] text-[#C8D8EC] flex-1" style="background:rgba(255,255,255,0.05);">
-              Your Chase utilization hits 85%. Ready to optimize?
-            </div>
+        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">Multimodal vision parses W2s, pay stubs, and tax returns in under 60 seconds. Agentic verification loop cross-references bureau data — 80% faster than manual underwriting.</p>
+      </div>
+      <div class="glass glass-hover rounded-2xl p-7 shadow-card reveal">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,rgba(247,162,59,0.2),rgba(247,162,59,0.05));border:1px solid rgba(247,162,59,0.28);">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V7l7-5 7 5v10" stroke="#F7A23B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="11" width="6" height="6" rx="1" stroke="#F7A23B" stroke-width="1.4"/></svg>
           </div>
-          <div class="flex gap-2 items-start justify-end">
-            <div class="rounded-lg rounded-tr-none px-3 py-2 text-[10px] text-[#C8D8EC]" style="background:rgba(30,102,220,0.18);border:1px solid rgba(30,102,220,0.22);">
-              Yes — show me
-            </div>
-          </div>
-          <div class="flex gap-2 items-start">
-            <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(30,102,220,0.25);">
-              <span class="text-[7px] font-bold" style="color:#3D84FF;">DP</span>
-            </div>
-            <div class="rounded-lg rounded-tl-none px-3 py-2 text-[10px] text-good flex-1" style="background:rgba(0,196,140,0.08);border:1px solid rgba(0,196,140,0.18);">
-              Pay $1,600 on Chase → +21 pts → save $1,250 ✓
-            </div>
-          </div>
+          <div><h3 class="text-base font-semibold text-white font-head">Deterministic UI</h3><p class="text-[10px] mt-0.5" style="color:#4A5E74;">React 19 · Tailwind · Framer Motion</p></div>
         </div>
+        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">The Delta Slider visualizes the amortization formula M = P·r(1+r)ⁿ/((1+r)ⁿ−1) in real-time, showing the exact dollar cost of every credit score point.</p>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     HOW IT WORKS — Credit Karma 3-step style
-═══════════════════════════════════════════════════════ -->
-<section id="how" class="py-28 divider relative overflow-hidden">
-  <div class="orb w-[500px] h-[500px] bg-good/7 bottom-[-100px] left-[-150px]"></div>
-
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="text-center max-w-xl mx-auto mb-20 reveal">
-      <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold border" style="color:#6BA4FF;border-color:rgba(30,102,220,0.3);background:rgba(30,102,220,0.08);">
-        How It Works
-      </div>
-      <h2 class="section-title text-white mb-4">Three steps to a<br/><span class="text-grad-green">lower APR</span></h2>
-      <p class="text-[#7A8EA8] leading-relaxed">Connect in minutes — no complex setup, no paperwork.</p>
-    </div>
-
-    <!-- Steps -->
-    <div class="grid md:grid-cols-3 gap-6 mb-16">
-
-      <div class="glass rounded-2xl p-8 shadow-card text-center reveal" style="border-color:rgba(30,102,220,0.18);">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background:linear-gradient(135deg,rgba(30,102,220,0.2),rgba(30,102,220,0.06));border:1px solid rgba(30,102,220,0.3);">
-          <span class="text-2xl font-bold font-head" style="color:#3D84FF;">1</span>
-        </div>
-        <h4 class="text-base font-semibold text-white mb-3 font-head">Connect Your Account</h4>
-        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">Securely connect your account. Read-only access, no hard pull, 256-bit encrypted.</p>
-      </div>
-
-      <div class="glass rounded-2xl p-8 shadow-card text-center reveal" style="border-color:rgba(30,102,220,0.18);">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background:linear-gradient(135deg,rgba(30,102,220,0.2),rgba(30,102,220,0.06));border:1px solid rgba(30,102,220,0.3);">
-          <span class="text-2xl font-bold font-head" style="color:#3D84FF;">2</span>
-        </div>
-        <h4 class="text-base font-semibold text-white mb-3 font-head">Review Your Plan</h4>
-        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">The AI engine simulates every scenario and surfaces the highest-impact action — pay this card, hit this score, get this rate.</p>
-      </div>
-
-      <div class="glass rounded-2xl p-8 shadow-card text-center reveal" style="border-color:rgba(0,196,140,0.18);">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background:linear-gradient(135deg,rgba(0,196,140,0.2),rgba(0,196,140,0.05));border:1px solid rgba(0,196,140,0.3);">
-          <span class="text-2xl font-bold font-head text-good">3</span>
-        </div>
-        <h4 class="text-base font-semibold text-white mb-3 font-head">Authorize & Save</h4>
-        <p class="text-sm leading-relaxed" style="color:#7A8EA8;">Enable Direct Pay and let DeltaPoint route proceeds automatically — or follow manual steps with the AI coach.</p>
-      </div>
-    </div>
-
-    <!-- Big CTA inline -->
-    <div class="text-center reveal">
-      <a href="#" class="btn-blue text-white font-semibold text-sm px-10 py-4 rounded-xl inline-flex items-center gap-2">
-        Start My Free Optimization
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <p class="text-xs mt-4" style="color:#4A5E74;">No credit pull · Free forever · Cancel anytime</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     RESULTS — Big stats + testimonials
-═══════════════════════════════════════════════════════ -->
-<section class="py-28 divider relative overflow-hidden">
-  <div class="orb w-[500px] h-[500px] bg-lc-blue/10 top-0 right-[-100px]"></div>
-
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-
-    <!-- Stats row (Credit Karma big-number style) -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
-      <div class="glass rounded-2xl p-6 text-center shadow-card reveal">
-        <div class="text-4xl font-bold text-grad mb-2 font-head" style="letter-spacing:-0.05em;">$1.2B</div>
-        <div class="text-xs" style="color:#4A5E74;">in loans optimized</div>
-      </div>
-      <div class="glass rounded-2xl p-6 text-center shadow-card reveal">
-        <div class="text-4xl font-bold text-grad mb-2 font-head" style="letter-spacing:-0.05em;">47k+</div>
-        <div class="text-xs" style="color:#4A5E74;">active members</div>
-      </div>
-      <div class="glass rounded-2xl p-6 text-center shadow-card reveal">
-        <div class="text-4xl font-bold text-good mb-2 font-head" style="letter-spacing:-0.05em;">+27</div>
-        <div class="text-xs" style="color:#4A5E74;">avg. score pts gained</div>
-      </div>
-      <div class="glass rounded-2xl p-6 text-center shadow-card reveal">
-        <div class="text-4xl font-bold text-grad mb-2 font-head" style="letter-spacing:-0.05em;">3.4%</div>
-        <div class="text-xs" style="color:#4A5E74;">avg. APR reduction</div>
-      </div>
-    </div>
-
-    <!-- Section header -->
-    <div class="text-center mb-12 reveal">
-      <h2 class="section-title text-white mb-3">Members love <span class="text-grad-blue">the results</span></h2>
-      <p style="color:#7A8EA8;" class="text-sm">Real outcomes from real DeltaPoint users.</p>
-    </div>
-
-    <!-- Testimonials -->
-    <div class="grid md:grid-cols-3 gap-5">
-
-      <div class="glass glass-hover rounded-2xl p-6 shadow-card reveal">
-        <div class="flex gap-0.5 mb-4">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-        </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#A8BDD4;">"The rate optimizer told me exactly which card to pay first. Score jumped 29 points in 3 weeks and my APR dropped from 13% to 9.2%. Saved $1,400+ this year alone."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(30,102,220,0.2);color:#3D84FF;">SM</div>
-          <div>
-            <p class="text-xs font-semibold text-white">Sarah M.</p>
-            <p class="text-[10px]" style="color:#4A5E74;">Phoenix, AZ · Personal Loan</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded-2xl p-6 shadow-lc reveal" style="background:linear-gradient(145deg,rgba(18,42,84,0.6),rgba(8,20,44,0.75));border:1px solid rgba(30,102,220,0.32);">
-        <div class="flex gap-0.5 mb-4">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-        </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#C8D8EC;">"Direct Pay handled everything. Authorized once, it paid off my highest-utilization cards, and I woke up to a rate 3.5% lower. Pays for itself in the first month."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(0,196,140,0.2);color:#00C48C;">JR</div>
-          <div>
-            <p class="text-xs font-semibold text-white">James R.</p>
-            <p class="text-[10px]" style="color:#4A5E74;">Austin, TX · Debt Consolidation</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="glass glass-hover rounded-2xl p-6 shadow-card reveal">
-        <div class="flex gap-0.5 mb-4">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="#F7A23B"><path d="M6.5 1l1.7 3.5 3.8.55-2.75 2.68.65 3.79L6.5 9.5l-3.4 1.82.65-3.79L1 5.05l3.8-.55L6.5 1Z"/></svg>
-        </div>
-        <p class="text-sm leading-relaxed mb-5" style="color:#A8BDD4;">"I never would've figured out to skip the low-utilization card. The AI coach found the exact path — my score hit 751. The Delta Assistant is genuinely brilliant."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(247,162,59,0.2);color:#F7A23B;">KL</div>
-          <div>
-            <p class="text-xs font-semibold text-white">Kim L.</p>
-            <p class="text-[10px]" style="color:#4A5E74;">Chicago, IL · Home Improvement</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     PRICING (Credit Karma style — free core, upsell)
-═══════════════════════════════════════════════════════ -->
+<!-- ═══ PRICING ═══ -->
 <section id="plans" class="py-28 divider relative overflow-hidden">
-  <div class="orb w-[500px] h-[500px] bg-lc-blue/12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-
+  <div class="orb w-[500px] h-[500px] bg-dp-blue/12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <div class="text-center max-w-xl mx-auto mb-14 reveal">
-      <h2 class="section-title text-white mb-4">Simple, transparent<br/><span class="text-grad-blue">pricing</span></h2>
-      <p style="color:#7A8EA8;" class="text-sm leading-relaxed">Start free. Upgrade when you're ready for full automation.</p>
+      <h2 class="section-title text-white mb-4">Simple, transparent <span class="text-grad-blue">pricing</span></h2>
+      <p style="color:#7A8EA8;" class="text-sm leading-relaxed">Start free. Upgrade for full agentic power.</p>
     </div>
-
     <div class="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto">
-
-      <!-- Free -->
       <div class="glass rounded-2xl p-7 shadow-card reveal">
         <div class="text-[11px] font-semibold uppercase tracking-wider mb-4" style="color:#4A5E74;">Free</div>
         <div class="text-4xl font-bold text-white mb-1 font-head" style="letter-spacing:-0.04em;">$0</div>
         <div class="text-xs mb-7" style="color:#4A5E74;">forever</div>
-        <ul class="space-y-3 mb-7">
-          <li class="flex items-center gap-2 text-sm" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Credit score dashboard</li>
-          <li class="flex items-center gap-2 text-sm" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>1 rate simulation/month</li>
-          <li class="flex items-center gap-2 text-sm opacity-35" style="color:#7A8EA8;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 3l7 7M10 3l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Direct Pay setup</li>
-          <li class="flex items-center gap-2 text-sm opacity-35" style="color:#7A8EA8;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 3l7 7M10 3l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>AI credit coach</li>
+        <ul class="space-y-3 mb-7 text-sm">
+          <li class="flex items-center gap-2" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Credit score dashboard</li>
+          <li class="flex items-center gap-2" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Delta Slider (3/month)</li>
+          <li class="flex items-center gap-2 opacity-35" style="color:#7A8EA8;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 3l7 7M10 3l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Underwriter Agent</li>
+          <li class="flex items-center gap-2 opacity-35" style="color:#7A8EA8;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 3l7 7M10 3l-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Identity Vault</li>
         </ul>
         <a href="#" class="block w-full text-center btn-ghost font-semibold text-sm py-3 rounded-xl" style="color:#A8BDD4;">Get Started</a>
       </div>
-
-      <!-- Optimizer (highlighted) -->
-      <div class="relative rounded-2xl p-7 shadow-lc reveal" style="background:linear-gradient(145deg,#112244,#07142B);border:1px solid rgba(30,102,220,0.4);">
+      <div class="relative rounded-2xl p-7 shadow-dp reveal" style="background:linear-gradient(145deg,#112244,#07142B);border:1px solid rgba(30,102,220,0.4);">
         <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 btn-blue text-white text-[10px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-full" style="box-shadow:0 0 16px rgba(30,102,220,0.5);">Most Popular</div>
         <div class="text-[11px] font-semibold uppercase tracking-wider mb-4" style="color:#6BA4FF;">Optimizer</div>
         <div class="text-4xl font-bold text-white mb-1 font-head" style="letter-spacing:-0.04em;">$9<span class="text-xl font-normal" style="color:#4A5E74;">/mo</span></div>
         <div class="text-xs mb-7" style="color:#4A5E74;">cancel anytime</div>
-        <ul class="space-y-3 mb-7">
-          <li class="flex items-center gap-2 text-sm text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Full credit dashboard</li>
-          <li class="flex items-center gap-2 text-sm text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited simulations</li>
-          <li class="flex items-center gap-2 text-sm text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Direct Pay automation</li>
-          <li class="flex items-center gap-2 text-sm text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>AI credit coach</li>
+        <ul class="space-y-3 mb-7 text-sm">
+          <li class="flex items-center gap-2 text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited Delta Slider</li>
+          <li class="flex items-center gap-2 text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Underwriter Agent</li>
+          <li class="flex items-center gap-2 text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Coach Agent + alerts</li>
+          <li class="flex items-center gap-2 text-white"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Identity Vault (5 docs)</li>
         </ul>
         <a href="#" class="block w-full text-center btn-blue text-white font-semibold text-sm py-3 rounded-xl">Start Free Trial</a>
       </div>
-
-      <!-- Pro -->
       <div class="glass rounded-2xl p-7 shadow-card reveal">
         <div class="text-[11px] font-semibold uppercase tracking-wider mb-4" style="color:#4A5E74;">Pro</div>
         <div class="text-4xl font-bold text-white mb-1 font-head" style="letter-spacing:-0.04em;">$24<span class="text-xl font-normal" style="color:#4A5E74;">/mo</span></div>
         <div class="text-xs mb-7" style="color:#4A5E74;">per month</div>
-        <ul class="space-y-3 mb-7">
-          <li class="flex items-center gap-2 text-sm" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Optimizer</li>
-          <li class="flex items-center gap-2 text-sm" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Multi-account management</li>
-          <li class="flex items-center gap-2 text-sm" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority AI coaching</li>
-          <li class="flex items-center gap-2 text-sm" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>White-glove onboarding</li>
+        <ul class="space-y-3 mb-7 text-sm">
+          <li class="flex items-center gap-2" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Optimizer</li>
+          <li class="flex items-center gap-2" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited Identity Vault</li>
+          <li class="flex items-center gap-2" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>GraphRAG market data</li>
+          <li class="flex items-center gap-2" style="color:#A8BDD4;"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="#00C48C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>MCP custom integrations</li>
         </ul>
         <a href="#" class="block w-full text-center btn-ghost font-semibold text-sm py-3 rounded-xl" style="color:#A8BDD4;">Contact Sales</a>
       </div>
@@ -1047,68 +970,20 @@
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     FAQ
-═══════════════════════════════════════════════════════ -->
-<section class="py-24 divider">
-  <div class="max-w-3xl mx-auto px-6">
-    <div class="text-center mb-12 reveal">
-      <h2 class="section-title text-white mb-3">Common <span class="text-grad-blue">questions</span></h2>
-    </div>
-
-    <div class="space-y-3">
-      <details class="glass rounded-xl border border-white/8 transition-all duration-200">
-        <summary class="flex items-center justify-between px-6 py-5 text-sm font-medium text-white">
-          Does this do a hard credit pull?
-          <svg class="chevron w-4 h-4 shrink-0" style="color:#4A5E74;" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </summary>
-        <div class="px-6 pb-5 text-sm leading-relaxed" style="color:#7A8EA8;">No. We use read-only access via a soft pull only. Connecting to DeltaPoint never affects your credit score.</div>
-      </details>
-
-      <details class="glass rounded-xl border border-white/8 transition-all duration-200">
-        <summary class="flex items-center justify-between px-6 py-5 text-sm font-medium text-white">
-          How does Direct Pay work?
-          <svg class="chevron w-4 h-4 shrink-0" style="color:#4A5E74;" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </summary>
-        <div class="px-6 pb-5 text-sm leading-relaxed" style="color:#7A8EA8;">When your loan is approved, Direct Pay routes proceeds directly to selected creditors. You authorize each creditor in-app and DeltaPoint sends payment at loan funding.</div>
-      </details>
-
-      <details class="glass rounded-xl border border-white/8 transition-all duration-200">
-        <summary class="flex items-center justify-between px-6 py-5 text-sm font-medium text-white">
-          How accurate are the rate simulations?
-          <svg class="chevron w-4 h-4 shrink-0" style="color:#4A5E74;" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </summary>
-        <div class="px-6 pb-5 text-sm leading-relaxed" style="color:#7A8EA8;">Simulations use live lender rate tiers and your real credit data. Median model deviation is under 0.4% APR versus final underwriting.</div>
-      </details>
-
-      <details class="glass rounded-xl border border-white/8 transition-all duration-200">
-        <summary class="flex items-center justify-between px-6 py-5 text-sm font-medium text-white">
-          Is my financial data safe?
-          <svg class="chevron w-4 h-4 shrink-0" style="color:#4A5E74;" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </summary>
-        <div class="px-6 pb-5 text-sm leading-relaxed" style="color:#7A8EA8;">Yes — AES-256 encryption, SOC 2 Type II certified, zero data selling. Revoke access any time from within the app.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     FINAL CTA
-═══════════════════════════════════════════════════════ -->
+<!-- ═══ FINAL CTA ═══ -->
 <section class="py-24 relative overflow-hidden">
-  <div class="orb w-[600px] h-[500px] bg-lc-blue/16 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="orb w-[600px] h-[500px] bg-dp-blue/16 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
   <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
-    <div class="glass rounded-3xl p-12 shadow-lc border" style="border-color:rgba(30,102,220,0.2);">
-      <div class="text-[11px] font-semibold uppercase tracking-widest mb-6" style="color:#1E66DC;">Free · No Credit Pull · Start in 2 Minutes</div>
-      <h2 class="section-title text-white mb-5">Your best rate is one<br/><span class="text-grad">optimization away</span></h2>
-      <p class="mb-10 leading-relaxed text-sm max-w-lg mx-auto" style="color:#7A8EA8;">Join 47,000+ members who've used DeltaPoint to cut their APR, boost their score, and take control of their debt.</p>
+    <div class="glass rounded-3xl p-12 shadow-dp border" style="border-color:rgba(30,102,220,0.2);">
+      <div class="text-[11px] font-semibold uppercase tracking-widest mb-6" style="color:#1E66DC;">Free · No Credit Pull · Agentic from Day One</div>
+      <h2 class="section-title text-white mb-5">Your best rate is one<br/><span class="text-grad">delta away</span></h2>
+      <p class="mb-10 leading-relaxed text-sm max-w-lg mx-auto" style="color:#7A8EA8;">Let the Underwriter Agent calculate your risk grade, the Coach Agent find your arbitrage move, and the Identity Vault verify your income — all in under 60 seconds.</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#" class="btn-blue text-white font-semibold text-sm px-10 py-4 rounded-xl flex items-center gap-2 justify-center">
-          Start Optimizing Free
+        <a href="#delta-slider" class="btn-blue text-white font-semibold text-sm px-10 py-4 rounded-xl flex items-center gap-2 justify-center">
+          Calculate My Delta
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#features" class="btn-ghost font-medium text-sm px-10 py-4 rounded-xl" style="color:#A8BDD4;">Explore features</a>
+        <a href="#underwriter" class="btn-ghost font-medium text-sm px-10 py-4 rounded-xl" style="color:#A8BDD4;">Meet the Agents</a>
       </div>
       <p class="text-xs mt-6" style="color:#2A3D52;">No credit pull · Cancel anytime · SOC 2 Certified</p>
     </div>
@@ -1116,9 +991,7 @@
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════════════════ -->
+<!-- ═══ FOOTER ═══ -->
 <footer class="divider py-12">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
@@ -1129,13 +1002,13 @@
           </div>
           <span class="font-head font-semibold text-white text-sm" style="letter-spacing:-0.02em;">Delta<span style="color:#3D84FF;">Point</span></span>
         </a>
-        <p class="text-xs max-w-[260px] leading-relaxed" style="color:#2A3D52;">AI-powered credit score monitoring and loan rate optimization.</p>
+        <p class="text-xs max-w-[260px] leading-relaxed" style="color:#2A3D52;">The agentic credit-to-yield engine. Built with LangGraph, Gemini 1.5 Pro, and Claude Code.</p>
       </div>
       <div class="flex flex-wrap gap-x-7 gap-y-2.5 text-xs" style="color:#2A3D52;">
-        <a href="#" class="hover:text-white transition-colors duration-150">Privacy</a>
-        <a href="#" class="hover:text-white transition-colors duration-150">Terms</a>
-        <a href="#" class="hover:text-white transition-colors duration-150">Security</a>
-        <a href="#" class="hover:text-white transition-colors duration-150">Contact</a>
+        <a href="#" class="hover:text-white transition-colors">Privacy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms</a>
+        <a href="#" class="hover:text-white transition-colors">Security</a>
+        <a href="#" class="hover:text-white transition-colors">GitHub</a>
       </div>
     </div>
     <div class="mt-8 pt-6 divider text-[11px] text-center" style="color:#1A2E42;">
@@ -1145,25 +1018,292 @@
 </footer>
 
 
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT — Delta Slider + Underwriter Agent + Coach
+═══════════════════════════════════════════════════════ -->
 <script>
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const h = a.getAttribute('href');
-      if (h === '#') return;
-      e.preventDefault();
-      const t = document.querySelector(h);
-      if (t) t.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
+// ── APR TIER TABLE ──
+const TIERS = [
+  { min:300, max:579, apr:24.99, grade:'D',  label:'Very Poor',  gradeClass:'grade-D'  },
+  { min:580, max:619, apr:22.49, grade:'C-', label:'Poor',       gradeClass:'grade-C'  },
+  { min:620, max:659, apr:18.99, grade:'C',  label:'Fair',       gradeClass:'grade-C'  },
+  { min:660, max:679, apr:15.49, grade:'C+', label:'Fair',       gradeClass:'grade-C\\+'},
+  { min:680, max:699, apr:13.99, grade:'B-', label:'Good',       gradeClass:'grade-B-' },
+  { min:700, max:719, apr:12.49, grade:'B',  label:'Good',       gradeClass:'grade-B'  },
+  { min:720, max:739, apr:9.99,  grade:'B+', label:'Very Good',  gradeClass:'grade-B\\+'},
+  { min:740, max:759, apr:8.24,  grade:'A-', label:'Very Good',  gradeClass:'grade-A-' },
+  { min:760, max:779, apr:7.24,  grade:'A',  label:'Excellent',  gradeClass:'grade-A'  },
+  { min:780, max:850, apr:6.49,  grade:'A+', label:'Exceptional',gradeClass:'grade-A\\+'},
+];
 
-  // Scroll reveal
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+let loanTerm = 60;
+
+function getTier(score) {
+  return TIERS.find(t => score >= t.min && score <= t.max) || TIERS[TIERS.length - 1];
+}
+
+function calcPayment(principal, annualAPR, months) {
+  const r = annualAPR / 12 / 100;
+  if (r === 0) return principal / months;
+  return principal * (r * Math.pow(1+r, months)) / (Math.pow(1+r, months) - 1);
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtDec(n) { return '$' + n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+
+function setTerm(t) {
+  loanTerm = t;
+  [24,36,48,60].forEach(n => {
+    const btn = document.getElementById('term-' + n);
+    if (!btn) return;
+    if (n === t) {
+      btn.style.background = 'rgba(30,102,220,0.2)';
+      btn.style.border = '1px solid rgba(30,102,220,0.4)';
+      btn.style.color = '#6BA4FF';
+    } else {
+      btn.style.background = 'rgba(30,102,220,0.08)';
+      btn.style.border = '1px solid rgba(30,102,220,0.28)';
+      btn.style.color = '#7A8EA8';
+    }
+  });
+  updateDelta();
+}
+
+function updateDelta() {
+  const slider = document.getElementById('score-slider');
+  const principal = parseFloat(document.getElementById('principal').value) || 25000;
+  const score = parseInt(slider.value);
+  const tier = getTier(score);
+
+  // Update score display
+  document.getElementById('slider-score').textContent = score;
+  document.getElementById('slider-label').textContent = tier.label;
+
+  // APR color
+  const aprEl = document.getElementById('slider-apr');
+  aprEl.textContent = tier.apr.toFixed(2) + '%';
+  aprEl.style.color = tier.apr > 15 ? '#F25454' : tier.apr > 10 ? '#F7A23B' : '#00C48C';
+
+  // Grade badge
+  const gradeEl = document.getElementById('slider-grade');
+  gradeEl.textContent = tier.grade;
+  gradeEl.className = 'text-sm font-semibold px-2.5 py-1 rounded-lg border';
+  if (tier.apr > 18) { gradeEl.style.cssText = 'background:rgba(242,84,84,0.1);border-color:rgba(242,84,84,0.3);color:#F25454;'; }
+  else if (tier.apr > 12) { gradeEl.style.cssText = 'background:rgba(247,162,59,0.12);border-color:rgba(247,162,59,0.35);color:#F7A23B;'; }
+  else if (tier.apr > 9) { gradeEl.style.cssText = 'background:rgba(61,132,255,0.15);border-color:rgba(61,132,255,0.4);color:#6BA4FF;'; }
+  else { gradeEl.style.cssText = 'background:rgba(0,196,140,0.12);border-color:rgba(0,196,140,0.35);color:#00C48C;'; }
+
+  // Payments
+  const monthly = calcPayment(principal, tier.apr, loanTerm);
+  const totalInterest = (monthly * loanTerm) - principal;
+
+  // Best rate (A+)
+  const bestTier = TIERS[TIERS.length - 1];
+  const bestMonthly = calcPayment(principal, bestTier.apr, loanTerm);
+  const bestInterest = (bestMonthly * loanTerm) - principal;
+
+  // Delta
+  const delta = totalInterest - bestInterest;
+
+  document.getElementById('monthly-payment').textContent = fmt(monthly);
+  document.getElementById('total-interest').textContent = fmt(totalInterest);
+  document.getElementById('best-monthly').textContent = fmt(bestMonthly);
+  document.getElementById('interest-delta').textContent = delta > 0 ? fmt(delta) : '$0';
+
+  // Thumb position
+  const pct = (score - 500) / (800 - 500) * 100;
+  const thumb = document.getElementById('thumb-overlay');
+  if (thumb) thumb.style.left = `calc(${pct}% - 12px)`;
+
+  // Rebuild tier table
+  buildTierTable(principal, score);
+}
+
+function buildTierTable(principal, currentScore) {
+  const tbody = document.getElementById('tier-table');
+  if (!tbody) return;
+  const worstTier = TIERS[0];
+  const worstMonthly = calcPayment(principal, worstTier.apr, loanTerm);
+  const worstInterest = (worstMonthly * loanTerm) - principal;
+
+  tbody.innerHTML = TIERS.map(t => {
+    const m = calcPayment(principal, t.apr, loanTerm);
+    const interest = (m * loanTerm) - principal;
+    const delta = worstInterest - interest;
+    const isCurrent = currentScore >= t.min && currentScore <= t.max;
+    const rowBg = isCurrent ? 'background:rgba(30,102,220,0.08);' : '';
+    const rowBorder = isCurrent ? 'border-left:2px solid #1E66DC;' : '';
+    let gradeColor = t.apr > 18 ? '#F25454' : t.apr > 12 ? '#F7A23B' : t.apr > 9 ? '#6BA4FF' : '#00C48C';
+    return `<tr style="${rowBg}${rowBorder}border-bottom:1px solid rgba(255,255,255,0.04);">
+      <td class="px-5 py-2.5" style="color:${isCurrent?'#fff':'#7A8EA8'};">${t.min}–${t.max} ${isCurrent?'← you':''}</td>
+      <td class="px-5 py-2.5 font-semibold" style="color:${gradeColor};">${t.grade}</td>
+      <td class="px-5 py-2.5" style="color:${gradeColor};">${t.apr.toFixed(2)}%</td>
+      <td class="px-5 py-2.5 text-white">${fmt(m)}/mo</td>
+      <td class="px-5 py-2.5" style="color:${t.apr > 15 ? '#F25454' : '#F7A23B'};">${fmt(interest)}</td>
+      <td class="px-5 py-2.5 text-good font-semibold">${delta > 0 ? '+' + fmt(delta) : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// Init slider
+updateDelta();
+
+// ── UNDERWRITER AGENT ──
+const UW_TIERS = [
+  { maxScore:579, maxDTI:100, maxUtil:100, grade:'D',  apr:24.99, prob:22, nextGrade:'C-', ptsNeeded:40 },
+  { maxScore:619, maxDTI:55,  maxUtil:90,  grade:'C-', apr:22.49, prob:35, nextGrade:'C',  ptsNeeded:30 },
+  { maxScore:659, maxDTI:50,  maxUtil:80,  grade:'C',  apr:18.99, prob:52, nextGrade:'C+', ptsNeeded:20 },
+  { maxScore:679, maxDTI:45,  maxUtil:75,  grade:'C+', apr:15.49, prob:64, nextGrade:'B-', ptsNeeded:20 },
+  { maxScore:699, maxDTI:42,  maxUtil:65,  grade:'B-', apr:13.99, prob:72, nextGrade:'B',  ptsNeeded:20 },
+  { maxScore:719, maxDTI:38,  maxUtil:55,  grade:'B',  apr:12.49, prob:84, nextGrade:'B+', ptsNeeded:20 },
+  { maxScore:739, maxDTI:36,  maxUtil:45,  grade:'B+', apr:9.99,  prob:91, nextGrade:'A-', ptsNeeded:20 },
+  { maxScore:759, maxDTI:33,  maxUtil:35,  grade:'A-', apr:8.24,  prob:95, nextGrade:'A',  ptsNeeded:20 },
+  { maxScore:779, maxDTI:30,  maxUtil:25,  grade:'A',  apr:7.24,  prob:98, nextGrade:'A+', ptsNeeded:20 },
+  { maxScore:850, maxDTI:28,  maxUtil:15,  grade:'A+', apr:6.49,  prob:99, nextGrade:null, ptsNeeded:0  },
+];
+
+function runUnderwriter() {
+  const score = parseInt(document.getElementById('uw-score')?.value) || 714;
+  const dti   = parseFloat(document.getElementById('uw-dti')?.value)  || 28;
+  const util  = parseFloat(document.getElementById('uw-util')?.value) || 71;
+  const inq   = parseInt(document.getElementById('uw-inq')?.value)    || 2;
+
+  let tier = UW_TIERS.find(t => score <= t.maxScore) || UW_TIERS[UW_TIERS.length-1];
+
+  // DTI penalty
+  if (dti > 43) tier = UW_TIERS[Math.max(0, UW_TIERS.indexOf(tier)-2)] || tier;
+  else if (dti > 36) tier = UW_TIERS[Math.max(0, UW_TIERS.indexOf(tier)-1)] || tier;
+
+  // Util penalty
+  if (util > 75) tier = UW_TIERS[Math.max(0, UW_TIERS.indexOf(tier)-1)] || tier;
+
+  // Inquiry penalty
+  if (inq > 4) tier = UW_TIERS[Math.max(0, UW_TIERS.indexOf(tier)-1)] || tier;
+
+  const ptsToUpgrade = tier.ptsNeeded;
+  const nextGrade = tier.nextGrade || '—';
+
+  // Calc delta ($25k/60mo)
+  const currentM = calcPayment(25000, tier.apr, 60);
+  const bestM = calcPayment(25000, 6.49, 60);
+  const delta = ((currentM - bestM) * 60);
+
+  // Grade color
+  let gradeStyle = '';
+  if (tier.apr > 18) gradeStyle = 'background:rgba(242,84,84,0.1);border-color:rgba(242,84,84,0.3);color:#F25454;';
+  else if (tier.apr > 12) gradeStyle = 'background:rgba(247,162,59,0.12);border-color:rgba(247,162,59,0.35);color:#F7A23B;';
+  else if (tier.apr > 9)  gradeStyle = 'background:rgba(61,132,255,0.15);border-color:rgba(61,132,255,0.4);color:#6BA4FF;';
+  else gradeStyle = 'background:rgba(0,196,140,0.12);border-color:rgba(0,196,140,0.35);color:#00C48C;';
+
+  const gradeEl = document.getElementById('uw-grade');
+  if (gradeEl) { gradeEl.textContent = tier.grade; gradeEl.style.cssText = gradeStyle + 'padding:2px 8px;border-radius:6px;border-width:1px;border-style:solid;font-size:11px;'; }
+
+  const tierEl = document.getElementById('uw-tier');
+  if (tierEl) { tierEl.textContent = tier.apr.toFixed(2) + '%'; tierEl.style.color = tier.apr > 15 ? '#F25454' : tier.apr > 10 ? '#F7A23B' : '#00C48C'; }
+
+  const probEl = document.getElementById('uw-prob');
+  if (probEl) { probEl.textContent = Math.min(99, tier.prob + Math.floor(Math.random()*3)) + '%'; }
+
+  const upgradeEl = document.getElementById('uw-upgrade');
+  if (upgradeEl) upgradeEl.textContent = ptsToUpgrade > 0 ? `+${ptsToUpgrade} pts → ${nextGrade}` : 'Already at A+';
+
+  const deltaEl = document.getElementById('uw-delta');
+  if (deltaEl) deltaEl.textContent = fmt(delta) + ' vs best';
+
+  const actionEl = document.getElementById('uw-action');
+  if (actionEl) {
+    if (util > 50) actionEl.textContent = `Reduce utilization to <30% → unlocks ${nextGrade || 'best'} tier → APR drops to ${(tier.apr - 2.5).toFixed(2)}%`;
+    else if (dti > 36) actionEl.textContent = `Lower DTI below 36% by paying down installment debt → unlocks grade ${nextGrade}`;
+    else actionEl.textContent = `Score on track. ${ptsToUpgrade > 0 ? `Need +${ptsToUpgrade} pts to reach ${nextGrade}` : 'Maximum grade achieved.'}`;
+  }
+}
+
+runUnderwriter();
+
+// ── COACH AGENT CHAT ──
+const COACH_RESPONSES = [
+  score => `Based on your ${score} score, I recommend paying your highest-utilization card first. This yields the maximum balance-to-rate arbitrage — typically +15-22 pts.`,
+  score => `GraphRAG market data shows personal loan spreads are at a 6-month low. At grade ${score > 720 ? 'B+' : 'B'}, you qualify for ${score > 720 ? '9.99%' : '12.49%'} — lock it before Fed rate decision.`,
+  score => `Amortization breakdown for $25k/60mo at your current rate: Monthly ${fmt(calcPayment(25000, score > 720 ? 9.99 : 12.49, 60))} · Total interest ${fmt(calcPayment(25000, score > 720 ? 9.99 : 12.49, 60) * 60 - 25000)}. Target A- to save ${fmt((calcPayment(25000, 12.49, 60) - calcPayment(25000, 8.24, 60)) * 60)}.`,
+  score => `Underwriter Agent output: Risk grade ${score > 740 ? 'A-' : score > 720 ? 'B+' : 'B'}. Approval probability ${score > 720 ? '91%' : '84%'}. Primary action: reduce Chase utilization from 71% → 28%.`,
+];
+let responseIdx = 0;
+
+function sendCoachMessage() {
+  const input = document.getElementById('coach-input');
+  const chat  = document.getElementById('coach-chat');
+  if (!input || !chat || !input.value.trim()) return;
+  const msg = input.value.trim();
+  input.value = '';
+
+  // User bubble
+  const userDiv = document.createElement('div');
+  userDiv.className = 'flex gap-2 items-start justify-end';
+  userDiv.innerHTML = `<div class="rounded-lg rounded-tr-none px-3 py-2 text-[10px] text-white" style="background:rgba(30,102,220,0.2);border:1px solid rgba(30,102,220,0.25);">${msg}</div>`;
+  chat.appendChild(userDiv);
+
+  // Agent response (after delay)
+  setTimeout(() => {
+    const score = parseInt(document.getElementById('score-slider')?.value) || 714;
+    const resp = COACH_RESPONSES[responseIdx % COACH_RESPONSES.length](score);
+    responseIdx++;
+    const agentDiv = document.createElement('div');
+    agentDiv.className = 'flex gap-2 items-start';
+    agentDiv.innerHTML = `
+      <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(0,196,140,0.2);"><span class="text-[8px] font-bold text-good">DP</span></div>
+      <div class="rounded-lg rounded-tl-none px-3 py-2 text-[10px] flex-1" style="background:rgba(0,196,140,0.08);border:1px solid rgba(0,196,140,0.18);color:#A8BDD4;">${resp}</div>`;
+    chat.appendChild(agentDiv);
+    chat.scrollTop = chat.scrollHeight;
+  }, 700);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// ── IDENTITY VAULT MOCK ──
+let scanInterval = null;
+function triggerMockUpload() {
+  const label = document.getElementById('drop-label');
+  const progress = document.getElementById('scan-progress');
+  if (!label || !progress) return;
+  label.textContent = 'Parsing with Gemini Flash Vision...';
+  let pct = 0;
+  if (scanInterval) clearInterval(scanInterval);
+  scanInterval = setInterval(() => {
+    pct = Math.min(100, pct + Math.random() * 8);
+    progress.style.width = pct + '%';
+    if (pct >= 100) {
+      clearInterval(scanInterval);
+      label.textContent = '✓ 1040_TaxReturn_2023.pdf parsed — Income: $94,200';
+      label.style.color = '#00C48C';
+      setTimeout(() => { label.textContent = 'Drop W2, pay stub, or tax return'; label.style.color = '#B464FF'; progress.style.width = '0%'; }, 3000);
+    }
+  }, 120);
+}
+
+// Animate scan progress bar on load
+let docScanPct = 0;
+const docScanEl = document.getElementById('scan-progress');
+const docScanAnim = setInterval(() => {
+  docScanPct = Math.min(68, docScanPct + Math.random() * 5);
+  if (docScanEl) docScanEl.style.width = docScanPct + '%';
+  if (docScanPct >= 68) clearInterval(docScanAnim);
+}, 180);
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const h = a.getAttribute('href');
+    if (h === '#') return;
+    e.preventDefault();
+    const t = document.querySelector(h);
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
 </script>
 
 </body>

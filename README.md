@@ -1,6 +1,6 @@
 # DeltaPoint — The Agentic Credit-to-Yield Engine
 
-> **OpenDelta** is a deterministic financial co-pilot built to bridge the gap between credit health and the cost of capital. By mapping real-time credit data against a universal "Market Rate" adapter, OpenDelta identifies the **Interest Delta** — the exact dollar value of credit improvement — and provides an agentic roadmap to unlock lower APRs across any lending provider.
+> **Delta Point** is a deterministic financial co-pilot built to bridge the gap between credit health and the cost of capital. By mapping real-time credit data against a universal "Market Rate" adapter, OpenDelta identifies the **Interest Delta** — the exact dollar value of credit improvement — and provides an agentic roadmap to unlock lower APRs across any lending provider.
 
 ---
 

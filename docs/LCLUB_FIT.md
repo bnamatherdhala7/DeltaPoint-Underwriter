@@ -98,7 +98,7 @@ Lclub's underwriting today relies heavily on bureau scores. This excludes an est
 
 ## Stakeholder Talking Points
 
-### For the VP of Product
+### For the Product
 
 DeltaPoint is a **borrower activation layer**. It answers the question every prospective Lclub borrower has but cannot easily answer today: "What does my credit profile cost me in dollars, and what do I need to do before I apply?"
 
@@ -113,7 +113,7 @@ The Coach Agent addresses a second problem: **retention**. Marketplace lenders s
 
 ---
 
-### For the VP of Engineering
+### For  Engineering
 
 Three architectural decisions are directly relevant to Lclub's engineering team:
 
@@ -128,7 +128,7 @@ The Underwriter and Coach agents run in parallel, write back to shared state, an
 
 ---
 
-### For the Governance Head
+### For the G Head
 
 Three points cover the full regulatory surface:
 

@@ -5,9 +5,52 @@
 
 ## Executive Summary
 
-DeltaPoint is a deterministic financial co-pilot designed to bridge the gap between **credit health** and **cost of capital**. Where incumbent credit tools treat credit scores as a destination, DeltaPoint treats them as a variable to be optimized — specifically against the cost of borrowing.
+### The One-Sentence Pitch
+DeltaPoint tells you exactly what your credit score is costing you in dollars — and then executes the moves to lower that cost.
 
-This PRD defines the five core features of DeltaPoint, the market evidence supporting each, and the implementation rationale from a research engineering perspective. All market data is sourced from independent research published in 2024–2026.
+### The Problem Worth Solving
+The U.S. personal loan market is $276 billion, growing at 15.5% CAGR. A 3–8 percentage point APR spread exists between lenders for the exact same borrower. Moving from Fair to Good credit saves $1,600–$2,400/year on a $20,000 loan. Most consumers don't know any of this. And the tools that exist today — Credit Karma, Experian, NerdWallet, myFICO — are not designed to tell them.
+
+Those products are fundamentally **referral businesses**. Their revenue model is affiliate commissions. They have no structural incentive to optimize a user's credit profile before the referral, because a worse credit profile earns the same commission. The advice is generic. The outcomes are unmeasured. The user is the product.
+
+### What DeltaPoint Does Differently
+DeltaPoint is a **financial co-pilot aligned with the user's outcome**. Every feature is designed around a single metric: dollars saved on borrowing costs. Not a score. Not a tier. A dollar figure.
+
+Three structural advantages over incumbents:
+
+1. **Dollar-first framing.** The Delta Slider shows the exact dollar cost of your current credit score vs. the best available rate — before a single recommendation is made. Users who see a $4,397 gap act. Users who see "score: 682" do not.
+
+2. **Proactive, not reactive.** The Coach Agent monitors leading indicators and intervenes before damage occurs. Existing tools report score drops after they happen. We prevent them.
+
+3. **Execution, not referral.** Direct Pay routes loan proceeds to high-interest accounts automatically. 35% of all personal loan borrowers are consolidating debt — none of the incumbents execute the consolidation for them. We close the loop.
+
+### Why Now
+April 2026 is the optimal moment to build this product:
+- Personal loan APRs average **12.04%** — high rates maximize the dollar spread between credit tiers, amplifying our value proposition
+- The CFPB has explicitly sanctioned cashflow data in underwriting decisions — the regulatory risk is cleared
+- Multimodal AI (Gemini 1.5 Flash) has reached **99% OCR accuracy at 1.8–4 second latency** — the Identity Vault is technically feasible today in a way it wasn't two years ago
+- Open Banking infrastructure is now available at scale for consumer-permissioned data access
+
+---
+
+## Competitive Landscape
+
+| Dimension | Credit Karma | Experian App | NerdWallet | myFICO | **DeltaPoint** |
+|---|---|---|---|---|---|
+| Primary output | Credit score | Credit score | Loan comparison | Credit score | **Dollar savings** |
+| Business model | Affiliate referral | Product upsell | Affiliate referral | Subscription | **User outcome** |
+| Alerts | Reactive (post-event) | Reactive | None | Reactive | **Proactive (pre-event)** |
+| Underwriting | None | Bureau only | None | None | **Bureau + cashflow + verified income** |
+| Document verification | None | None | None | None | **Sub-60s AI parsing** |
+| Debt payoff execution | Referral link | None | Referral link | None | **Direct Pay (closes the loop)** |
+| Thin-file support | None | Partial | None | None | **Cashflow-based approval** |
+| Agent behavior | — | — | — | — | **Deterministic + LLM (right tool per task)** |
+
+**The key insight about every competitor above:** they monetize the loan application, not the loan outcome. DeltaPoint is designed to monetize the savings — a fundamentally different alignment with the user.
+
+---
+
+## Market Context
 
 ---
 
@@ -237,19 +280,21 @@ Modern OCR + multimodal AI brings this to **under 10 seconds** with 99% accuracy
 ## Why This Feature Order?
 
 **Rate Optimizer first** because it:
-- Requires no external data integrations (works on user-input data)
-- Produces immediate, demonstrable value (a dollar savings figure)
-- Creates the behavioral motivation that makes all subsequent features useful
+- Requires no external data integrations (works on user-input data only)
+- Produces immediate, demonstrable value — a specific dollar savings figure on first load
+- Creates the behavioral motivation that makes every subsequent feature useful
 - Has the lowest technical risk of the five features
 - Validates the core hypothesis ("users care about the dollar cost of their score") before investing in complex integrations
 
-Once users understand their Interest Delta, they have a reason to:
-- Engage with the Coach Agent's alerts (to close that delta faster)
-- Upload identity documents (to access better rates sooner)
-- Connect banking data (to qualify for cashflow-boosted approval)
-- Execute the Direct Pay consolidation (to capture the savings they calculated)
+Once users understand their Interest Delta, they have a concrete reason to use every other feature:
+- **Coach Agent** — to close that delta faster via real-time monitoring
+- **Identity Vault** — to access better rates sooner via verified income
+- **Cashflow Underwriting** — to qualify for boosted approval via banking data
+- **Direct Pay** — to capture the savings they calculated in the Slider
 
-**The Rate Optimizer is the activation event. Every other feature is an acceleration mechanism.**
+**The Rate Optimizer is the activation event. Every other feature is an acceleration mechanism toward the dollar savings the user already saw on their first visit.**
+
+This sequencing also de-risks the build. We validate product-market fit (do users respond to dollar framing?) with zero infrastructure dependencies before investing in AI pipelines, banking data integrations, and lender APIs.
 
 ---
 

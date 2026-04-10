@@ -123,6 +123,8 @@ Open **http://localhost:3000** in your browser.
 | [Architecture](docs/ARCHITECTURE.md) | System diagrams, agent graph, data flow |
 | [PRD & Market Research](docs/PRD.md) | Full product requirements, sourced market data, competitive analysis, success metrics |
 | [Architectural Decisions](docs/DECISIONS.md) | Why LangGraph, why deterministic Underwriter, why Gemini Flash |
+| [Governance & Compliance](docs/GOVERNANCE.md) | FCRA, ECOA, CFPB, model governance, consent architecture |
+| [Strategic Fit](docs/LCLUB_FIT.md) | How DeltaPoint maps to a marketplace lending stack, stakeholder talking points |
 | [Getting Started](docs/GETTING-STARTED.md) | Setup guide, dev server, project structure |
 
 ---

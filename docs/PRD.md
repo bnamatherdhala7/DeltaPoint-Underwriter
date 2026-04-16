@@ -47,57 +47,113 @@ Every feature is evaluated against one question: does this move the user closer 
 
 ## Target Users
 
-Segments are defined by primary motivation — not demographics. Each user has one dominant job-to-be-done.
-
-### "The Overpayer" — Primary (26.4M addressable)
-**Marcus, 34, $62K income, 668 score, $22K loan at 18.4% APR.**
-Knows his score is "not great" but has no idea what it's costing him.
-
-*Day in the life:*
-| Moment | What he does | Where he gets stuck |
-|---|---|---|
-| Sees a credit card rejection | Opens Credit Karma | "668 — Fair." No dollar context. Closes in 30 seconds. |
-| Googles "how to improve my score" | Reads generic tips | "Pay on time." No prioritization, no dollar impact per action. |
-| Has $500 to pay down debt | Tries to pick Card A vs. Card B | No tool tells him which move saves him more in interest. Guesses. |
-| Makes a payment, checks a month later | Score moved 3 points | Still no idea if that changed his APR tier. Disengages for 3 months. |
-
-**DeltaPoint:** Opens the Delta Slider, inputs $22K loan, sees a $4,397 gap between his current score and the best available rate. Has a concrete goal for the first time.
+Segments are defined by primary motivation — not demographics. Each represents a fundamentally different job-to-be-done with a distinct problem and solution path.
 
 ---
 
-### "The Consolidator" — High-intent (9.2M addressable)
-**Diana, 41, $78K income, $28K spread across 4 accounts.**
-Primary motivation: *"Execute the consolidation for me — don't just refer me."*
+### Persona 1 — "The Overpayer" · Primary · 26.4M addressable
 
-Was sent a Credit Karma referral link, got the loan, deposited proceeds into checking, never paid off the cards. Now holds both the new loan and the original balances. This is a product design failure, not a willpower failure.
+**Profile:** Marcus, 34, $62K income, 668 credit score, $22K personal loan at 18.4% APR. Has used Credit Karma. Knows his score is "not great." Has no idea what it's costing him.
 
-**DeltaPoint:** Direct Pay routes loan proceeds to high-interest accounts automatically. The consolidation actually closes.
+**Needs:**
+- Know the dollar cost of his current credit score
+- A prioritized action plan — not generic tips
+- A feedback loop that shows progress in dollars, not points
+
+**Pain Points:**
+- Credit Karma shows "668 — Fair" with no dollar context or action priority
+- Googles "how to improve credit score" — gets "pay on time, lower utilization" with no dollar impact per action
+- Has $500 to put toward debt but can't tell whether paying Card A or Card B moves the needle more
+- Score moves 3 points after a payment — no idea if that shifted his APR tier or saved him anything
+
+**Key Problem:**
+> "I have no way to know what my score is costing me in dollars, so I have no reason to act."
+
+The obstacle isn't motivation — it's that the output (a score) is disconnected from the decision (should I do something about it today). Marcus needs a dollar figure, not a tier label.
+
+**Solution — Rate Optimizer (Delta Slider):**
+Input loan amount + current score → see the exact dollar gap between your score and the best available rate, live. Move the slider → watch Interest Delta recalculate. Marcus sees $4,397 on first load. That number creates a concrete goal and a reason to return.
+
+**Why we picked this first:**
+This is the highest-severity, highest-frequency problem across all three segments. It requires no external integrations — just user-input data. It validates the core hypothesis (dollar framing drives activation) before we invest in complex pipelines. And it's the prerequisite for every other feature: a user who doesn't know their Interest Delta has no reason to use the Coach Agent, pursue verification, or execute a consolidation. The Rate Optimizer is not Feature 1 — it's the activation event that makes the rest of the product meaningful.
 
 ---
 
-### "The Invisible" — Underserved (32–80M addressable)
-**Amir, 27, $58K gig income, no credit history.**
-Primary motivation: *"Prove I'm creditworthy even though the system hasn't seen me."*
+### Persona 2 — "The Consolidator" · High-intent · 9.2M addressable
 
-18 months of on-time rent payments. Positive cash flow. Denied by every lender because bureau scores don't see him. Existing tools say "build credit" — not a same-year solution.
+**Profile:** Diana, 41, $78K income, $28K spread across 4 accounts — 2 credit cards at 22–24% APR, medical debt, store card. Has been approved for a consolidation loan before. Never followed through.
 
-**DeltaPoint:** Cashflow-Based Underwriting + Identity Vault generates a Boosted Approval Odds score from bank statements and verified income. Bureau-only models structurally cannot serve this user.
+**Needs:**
+- One lower monthly payment instead of four
+- Confirmation that the consolidation will actually happen, not just be approved
+- Confidence that she won't end up holding both the new loan and the old balances
+
+**Pain Points:**
+- Credit Karma sent her a referral link. She got the loan, deposited the proceeds into checking, and never paid off the cards. Six months later she holds both the $20K loan and $18K in card balances — total debt increased.
+- This happens to the majority of consolidation loan borrowers. It is a product design failure, not a willpower failure.
+- No incumbent closes the loop between "you're approved" and "your accounts are paid off."
+
+**Key Problem:**
+> "Loan approval and debt payoff are two separate events — and nobody handles the second one."
+
+Diana doesn't need a better referral. She needs the execution to happen automatically.
+
+**Solution — Direct Pay:**
+When Diana qualifies for a consolidation loan, DeltaPoint identifies her highest-interest accounts and routes the loan proceeds directly to those creditors within the interface. She authorizes it once. The payoff happens mechanically. She never receives a disbursement check that could sit undeployed.
+
+**Why we picked this:**
+35% of all personal loan borrowers are consolidating debt — the single largest use case. None of the incumbents execute the consolidation. They refer and collect the commission regardless of whether the user's debt actually gets paid off. Direct Pay is where DeltaPoint's incentive alignment (we win when you save) becomes most tangible. We deprioritize it in v1 only because it requires lender settlement API partnerships — it's the highest-effort feature on the board. When the partnerships are in place, it becomes the product's most defensible moat.
 
 ---
 
-## Core Problems & Prioritization
+### Persona 3 — "The Invisible" · Underserved · 32–80M addressable
 
-Ranked by severity × frequency for the Overpayer (primary segment):
+**Profile:** Amir, 27, $58K gig income, no credit history. Arrived from abroad 18 months ago. Has paid rent and bills on time via debit every month. Has never held a credit product in the U.S.
+
+**Needs:**
+- A path to loan approval that doesn't rely on a credit history he doesn't have
+- A way to use his actual financial behavior (income, cash flow, payment history) as evidence of creditworthiness
+- An answer faster than "build credit over the next 2–3 years"
+
+**Pain Points:**
+- Denied by every traditional lender. Bureau scores don't see him — not because he's a bad borrower, but because he's never been scored.
+- 32–80 million Americans are in the same position. They're not high-risk; they're unscored.
+- Existing tools have no path forward for this user. "Build your credit" is not a same-year solution.
+- His on-time rent payments, positive cash flow, and stable income are invisible to the system.
+
+**Key Problem:**
+> "I can't prove I'm creditworthy using a system that has never seen me."
+
+The obstacle is structural, not behavioral. Bureau-only underwriting cannot solve this by design.
+
+**Solution — Cashflow-Based Underwriting + Identity Vault:**
+DeltaPoint connects Amir's banking data to generate a Boosted Approval Odds score from direct deposits, income-to-expense ratios, and recurring payment patterns. The Identity Vault parses a W-2 or pay stub in under 60 seconds and cross-references it against bureau records. Together, these create an underwriting signal that is 40% more predictive than bureau data alone — and it sees Amir.
+
+**Why we picked this:**
+This is the largest underserved addressable market in consumer finance — 32–80 million Americans that incumbents structurally cannot reach. The CFPB has explicitly sanctioned cashflow data in underwriting, so the regulatory risk is cleared. And this segment creates a compounding moat: a user who gets approved through DeltaPoint's cashflow model, builds a repayment history, and eventually becomes scoreable has strong loyalty to the platform that gave them their first approval. We deprioritize in v1 due to Open Banking integration complexity — but it is the segment with the highest long-term platform value.
+
+---
+
+## Why The Overpayer First
+
+Three personas, each with a legitimate problem. We start with the Overpayer because:
+
+1. **Largest addressable market with immediate pain.** 26.4M Americans holding personal loans today are overpaying. The pain is active, not hypothetical.
+2. **Zero integration dependencies.** The Rate Optimizer runs on user-input data alone — no banking APIs, no lender partnerships, no bureau connections. We can ship and learn before committing to infrastructure.
+3. **Validates the core bet.** Everything DeltaPoint does is built on one hypothesis: borrowers respond to dollar framing more than score framing. The Rate Optimizer tests that hypothesis at minimum cost.
+4. **Creates the motivation that makes the other two personas relevant.** The Consolidator needs to know her Interest Delta before Direct Pay means anything. The Invisible needs to understand what a score improvement is worth before Cashflow Underwriting is compelling. Persona 1 is the on-ramp for Personas 2 and 3.
+
+---
+
+## Problem Priority
 
 | Problem | Severity | Frequency | Feature |
 |---|---|---|---|
 | "I don't know what my score is costing me in dollars" | ★★★★★ | ★★★★★ | Rate Optimizer |
 | "I don't know which action to take first" | ★★★★★ | ★★★★☆ | Coach Agent |
-| "I was approved for a loan but never executed the payoff" | ★★★★★ | ★★★☆☆ | Direct Pay |
+| "I was approved but never executed the payoff" | ★★★★★ | ★★★☆☆ | Direct Pay |
 | "I was denied despite being financially capable" | ★★★★★ | ★★★☆☆ | Cashflow Underwriting |
-| "Verification takes 3–7 days and kills my momentum" | ★★★★☆ | ★★★☆☆ | Identity Vault |
-
-Problem #1 is the activation event. A user who doesn't understand their Interest Delta has no reason to use any other feature.
+| "Verification takes 3–7 days and stalls my application" | ★★★★☆ | ★★★☆☆ | Identity Vault |
 
 ---
 

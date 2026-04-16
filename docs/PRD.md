@@ -47,101 +47,52 @@ Every feature is evaluated against one question: does this move the user closer 
 
 ## Target Users
 
-Segments are defined by primary motivation — not demographics. Each represents a fundamentally different job-to-be-done with a distinct problem and solution path.
+Three segments, each defined by a distinct motivation and problem — not demographics.
 
 ---
 
-### Persona 1 — "The Overpayer" · Primary · 26.4M addressable
+### "The Overpayer" · Primary · 26.4M addressable
+**Marcus, 34, $62K income, 668 score, $22K loan at 18.4% APR.**
 
-**Profile:** Marcus, 34, $62K income, 668 credit score, $22K personal loan at 18.4% APR. Has used Credit Karma. Knows his score is "not great." Has no idea what it's costing him.
-
-**Needs:**
-- Know the dollar cost of his current credit score
-- A prioritized action plan — not generic tips
-- A feedback loop that shows progress in dollars, not points
-
-**Pain Points:**
-- Credit Karma shows "668 — Fair" with no dollar context or action priority
-- Googles "how to improve credit score" — gets "pay on time, lower utilization" with no dollar impact per action
-- Has $500 to put toward debt but can't tell whether paying Card A or Card B moves the needle more
-- Score moves 3 points after a payment — no idea if that shifted his APR tier or saved him anything
-
-**Key Problem:**
-> "I have no way to know what my score is costing me in dollars, so I have no reason to act."
-
-The obstacle isn't motivation — it's that the output (a score) is disconnected from the decision (should I do something about it today). Marcus needs a dollar figure, not a tier label.
-
-**Solution — Rate Optimizer (Delta Slider):**
-Input loan amount + current score → see the exact dollar gap between your score and the best available rate, live. Move the slider → watch Interest Delta recalculate. Marcus sees $4,397 on first load. That number creates a concrete goal and a reason to return.
-
-**Why we picked this first:**
-This is the highest-severity, highest-frequency problem across all three segments. It requires no external integrations — just user-input data. It validates the core hypothesis (dollar framing drives activation) before we invest in complex pipelines. And it's the prerequisite for every other feature: a user who doesn't know their Interest Delta has no reason to use the Coach Agent, pursue verification, or execute a consolidation. The Rate Optimizer is not Feature 1 — it's the activation event that makes the rest of the product meaningful.
+| | |
+|---|---|
+| **Needs** | Know the dollar cost of his score; a prioritized action plan; progress feedback in dollars not points |
+| **Pain points** | Credit Karma shows "668 — Fair" with no dollar context. Generic tips ("pay on time") with no impact ranking. Has $500 to pay down debt but can't tell if Card A or Card B moves his APR tier. |
+| **Key problem** | *"I have no way to know what my score is costing me — so I have no reason to act."* |
+| **Solution** | Rate Optimizer: input loan + score → see exact Interest Delta live. Marcus sees $4,397 on first load. Concrete goal, reason to return. |
+| **Why we start here** | Highest severity + highest frequency of any problem across all three segments. Zero integration dependencies — validates the core hypothesis before investing in pipelines. And it's the prerequisite: a user who doesn't know their Interest Delta has no motivation to use any other feature. |
 
 ---
 
-### Persona 2 — "The Consolidator" · High-intent · 9.2M addressable
+### "The Consolidator" · High-intent · 9.2M addressable
+**Diana, 41, $78K income, $28K across 4 accounts at 22–24% APR.**
 
-**Profile:** Diana, 41, $78K income, $28K spread across 4 accounts — 2 credit cards at 22–24% APR, medical debt, store card. Has been approved for a consolidation loan before. Never followed through.
-
-**Needs:**
-- One lower monthly payment instead of four
-- Confirmation that the consolidation will actually happen, not just be approved
-- Confidence that she won't end up holding both the new loan and the old balances
-
-**Pain Points:**
-- Credit Karma sent her a referral link. She got the loan, deposited the proceeds into checking, and never paid off the cards. Six months later she holds both the $20K loan and $18K in card balances — total debt increased.
-- This happens to the majority of consolidation loan borrowers. It is a product design failure, not a willpower failure.
-- No incumbent closes the loop between "you're approved" and "your accounts are paid off."
-
-**Key Problem:**
-> "Loan approval and debt payoff are two separate events — and nobody handles the second one."
-
-Diana doesn't need a better referral. She needs the execution to happen automatically.
-
-**Solution — Direct Pay:**
-When Diana qualifies for a consolidation loan, DeltaPoint identifies her highest-interest accounts and routes the loan proceeds directly to those creditors within the interface. She authorizes it once. The payoff happens mechanically. She never receives a disbursement check that could sit undeployed.
-
-**Why we picked this:**
-35% of all personal loan borrowers are consolidating debt — the single largest use case. None of the incumbents execute the consolidation. They refer and collect the commission regardless of whether the user's debt actually gets paid off. Direct Pay is where DeltaPoint's incentive alignment (we win when you save) becomes most tangible. We deprioritize it in v1 only because it requires lender settlement API partnerships — it's the highest-effort feature on the board. When the partnerships are in place, it becomes the product's most defensible moat.
+| | |
+|---|---|
+| **Needs** | One lower payment; certainty that the consolidation will actually execute; no double-debt scenario |
+| **Pain points** | Got a Credit Karma referral loan, deposited proceeds into checking, never paid off the cards. Now holds both the new loan and original balances. This is a product design failure, not a willpower failure. |
+| **Key problem** | *"Loan approval and debt payoff are two separate events — and nobody handles the second one."* |
+| **Solution** | Direct Pay: loan proceeds routed to her highest-interest creditors automatically. She authorizes once. The payoff closes. |
+| **Why we deprioritize in v1** | 35% of all personal loan borrowers are consolidating — the largest single use case, and no incumbent executes it. We deprioritize only because lender settlement API partnerships take time. When in place, Direct Pay becomes the product's most defensible moat. |
 
 ---
 
-### Persona 3 — "The Invisible" · Underserved · 32–80M addressable
+### "The Invisible" · Underserved · 32–80M addressable
+**Amir, 27, $58K gig income, no U.S. credit history.**
 
-**Profile:** Amir, 27, $58K gig income, no credit history. Arrived from abroad 18 months ago. Has paid rent and bills on time via debit every month. Has never held a credit product in the U.S.
-
-**Needs:**
-- A path to loan approval that doesn't rely on a credit history he doesn't have
-- A way to use his actual financial behavior (income, cash flow, payment history) as evidence of creditworthiness
-- An answer faster than "build credit over the next 2–3 years"
-
-**Pain Points:**
-- Denied by every traditional lender. Bureau scores don't see him — not because he's a bad borrower, but because he's never been scored.
-- 32–80 million Americans are in the same position. They're not high-risk; they're unscored.
-- Existing tools have no path forward for this user. "Build your credit" is not a same-year solution.
-- His on-time rent payments, positive cash flow, and stable income are invisible to the system.
-
-**Key Problem:**
-> "I can't prove I'm creditworthy using a system that has never seen me."
-
-The obstacle is structural, not behavioral. Bureau-only underwriting cannot solve this by design.
-
-**Solution — Cashflow-Based Underwriting + Identity Vault:**
-DeltaPoint connects Amir's banking data to generate a Boosted Approval Odds score from direct deposits, income-to-expense ratios, and recurring payment patterns. The Identity Vault parses a W-2 or pay stub in under 60 seconds and cross-references it against bureau records. Together, these create an underwriting signal that is 40% more predictive than bureau data alone — and it sees Amir.
-
-**Why we picked this:**
-This is the largest underserved addressable market in consumer finance — 32–80 million Americans that incumbents structurally cannot reach. The CFPB has explicitly sanctioned cashflow data in underwriting, so the regulatory risk is cleared. And this segment creates a compounding moat: a user who gets approved through DeltaPoint's cashflow model, builds a repayment history, and eventually becomes scoreable has strong loyalty to the platform that gave them their first approval. We deprioritize in v1 due to Open Banking integration complexity — but it is the segment with the highest long-term platform value.
+| | |
+|---|---|
+| **Needs** | Loan approval based on actual financial behavior, not a score he doesn't have; a same-year solution |
+| **Pain points** | Denied by every lender despite 18 months of on-time rent payments and positive cash flow. Bureau scores don't see him — not because he's risky, but because he's unscored. "Build credit" is a 2–3 year answer. |
+| **Key problem** | *"I can't prove I'm creditworthy using a system that has never seen me."* |
+| **Solution** | Cashflow Underwriting + Identity Vault: banking data + verified income generates a Boosted Approval Odds score that is 40% more predictive than bureau-only — and it sees Amir. |
+| **Why we deprioritize in v1** | Largest underserved market in consumer finance, and the CFPB has cleared the regulatory path. Deprioritized only due to Open Banking integration complexity. Long-term this segment has the highest loyalty upside — first approval creates a durable relationship. |
 
 ---
 
 ## Why The Overpayer First
 
-Three personas, each with a legitimate problem. We start with the Overpayer because:
-
-1. **Largest addressable market with immediate pain.** 26.4M Americans holding personal loans today are overpaying. The pain is active, not hypothetical.
-2. **Zero integration dependencies.** The Rate Optimizer runs on user-input data alone — no banking APIs, no lender partnerships, no bureau connections. We can ship and learn before committing to infrastructure.
-3. **Validates the core bet.** Everything DeltaPoint does is built on one hypothesis: borrowers respond to dollar framing more than score framing. The Rate Optimizer tests that hypothesis at minimum cost.
-4. **Creates the motivation that makes the other two personas relevant.** The Consolidator needs to know her Interest Delta before Direct Pay means anything. The Invisible needs to understand what a score improvement is worth before Cashflow Underwriting is compelling. Persona 1 is the on-ramp for Personas 2 and 3.
+We start with the Overpayer because the Rate Optimizer requires no external integrations, targets the largest segment with active pain, and tests the core product hypothesis at minimum cost. Critically, it's the on-ramp for every other persona: the Consolidator needs to know her Interest Delta before Direct Pay is meaningful, and the Invisible needs to see what a score improvement is worth before Cashflow Underwriting is compelling. Persona 1 activates the entire product.
 
 ---
 

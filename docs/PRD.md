@@ -24,12 +24,64 @@ Three structural advantages over incumbents:
 
 3. **Execution, not referral.** Direct Pay routes loan proceeds to high-interest accounts automatically. 35% of all personal loan borrowers are consolidating debt — none of the incumbents execute the consolidation for them. We close the loop.
 
+### North Star Metric
+> **Average Interest Delta realized per user: $1,200+/year**
+
+Every feature, every alert, every agent action is evaluated against one question: did this move the user closer to realizing their Interest Delta? A user who saves $1,200 in annual interest is the atomic unit of success.
+
 ### Why Now
 April 2026 is the optimal moment to build this product:
 - Personal loan APRs average **12.04%** — high rates maximize the dollar spread between credit tiers, amplifying our value proposition
 - The CFPB has explicitly sanctioned cashflow data in underwriting decisions — the regulatory risk is cleared
 - Multimodal AI (Gemini 1.5 Flash) has reached **99% OCR accuracy at 1.8–4 second latency** — the Identity Vault is technically feasible today in a way it wasn't two years ago
 - Open Banking infrastructure is now available at scale for consumer-permissioned data access
+
+---
+
+## User Personas
+
+### Persona 1 — "The Overpayer" (Primary)
+**Profile:** 28–45, $45K–$80K income, 640–699 credit score, holds a personal loan or credit card balance. Knows their score is "not great" but has no idea what it's costing them.
+
+**Job to be done:** Tell me exactly how much money I'm wasting and what to do about it — in plain English.
+
+**Pain point:** Has used Credit Karma, sees a score, gets generic tips ("pay on time!"), still has no idea whether to pay down Card A or Card B first.
+
+**DeltaPoint hook:** Opens the Delta Slider, inputs their $20K loan, sees a $4,397 gap between their current score and the best available rate. Has a concrete goal for the first time.
+
+---
+
+### Persona 2 — "The Consolidator" (High-intent)
+**Profile:** 32–50, carrying $15K–$40K across 3–5 high-interest accounts (credit cards, medical debt). Has been approved for a consolidation loan before but never followed through.
+
+**Job to be done:** Get all my debt into one lower payment without me having to manage the transfers myself.
+
+**Pain point:** Was sent a referral link by Credit Karma, got the loan, never paid off the cards, now has both the loan and the card balances.
+
+**DeltaPoint hook:** Direct Pay executes the payoff automatically — the consolidation actually happens, not just the loan origination.
+
+---
+
+### Persona 3 — "The Invisible" (Underserved)
+**Profile:** 22–35, thin credit file — recent immigrant, gig worker, or young adult who pays with debit. Strong cash flow but no credit history. Denied by traditional lenders despite being financially capable.
+
+**Job to be done:** Prove I'm creditworthy even though I don't have a credit history.
+
+**Pain point:** Denied for loans that their income clearly supports. Existing tools offer no path forward — "build your credit" is not a same-year solution.
+
+**DeltaPoint hook:** Cashflow-Based Underwriting + Identity Vault generates a Boosted Approval Odds score from bank data and verified income — giving this user a path to approval bureau-only models structurally cannot provide.
+
+---
+
+## Out of Scope (v1)
+
+| What we are NOT building | Why |
+|---|---|
+| Full credit monitoring / bureau dispute tools | Solves a different problem (score correction vs. rate optimization). Adds regulatory surface area without accelerating the North Star metric. |
+| General financial planning (budgeting, net worth tracking) | Scope creep that dilutes the dollar-cost-of-credit framing — our sharpest differentiator. |
+| B2B / lender-side underwriting SaaS | A different GTM motion, different buyer, different sales cycle. Not v1. |
+| Crypto / investment features | Different user intent entirely. Users in borrowing mode are not in investing mode. |
+| Credit card comparison / rewards optimization | Affiliate revenue model — structurally misaligned with our user-outcome business model. |
 
 ---
 
